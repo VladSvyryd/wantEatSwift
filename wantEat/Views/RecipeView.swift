@@ -19,6 +19,9 @@ struct ResponceItem: Identifiable{
 
 struct RecipeView: View {
     
+    init() {
+        UITableView.appearance().separatorStyle = .none
+    }
     
     let searchedResults:[ResponceItem] = [
         ResponceItem(id: 0, name: "Food1 Food1 Food1 Food1 Food1",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["apple","pork","bread"]),
@@ -27,7 +30,8 @@ struct RecipeView: View {
     var body: some View {
         VStack(alignment: .leading){
             List(searchedResults){res in
-                SearchResult(res: res)
+                SearchResult(res: res).padding(.vertical, 2)
+                
             }
         }
         
@@ -36,7 +40,10 @@ struct RecipeView: View {
 
 struct SearchResult: View {
     let res: ResponceItem
+    @State private var showRecepieDetailsSheet = false
     var body: some View{
+        
+        
         
         
         
@@ -80,8 +87,17 @@ struct SearchResult: View {
             .padding(.horizontal, 7)
             .background(Color.white)
             .cornerRadius(15)
-            .shadow(radius: 10)
-        
+            .shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
+            .gesture(
+                TapGesture()
+                    .onEnded { _ in
+                        self.showRecepieDetailsSheet.toggle()
+                }
+        )
+            .sheet(isPresented: $showRecepieDetailsSheet) {
+                DetailsModalSheet(recepie: self.res)
+                
+        }
     }
 }
 
@@ -95,11 +111,21 @@ struct IconWithLabel: View{
         }
     }
 }
-
+struct DetailsModalSheet: View{
+    @Environment(\.presentationMode) var presentationMode
+    let recepie: ResponceItem
+    var body: some View{
+        VStack{
+            Text(recepie.name)
+            Button("Dismiss"){
+                self.presentationMode.wrappedValue.dismiss()
+            }}
+    }
+}
 struct MatchChip: View{
     let match: String
     var body: some View{
-        Text("\(match)").fontWeight(.semibold).padding(.horizontal,7).background(Color.green).cornerRadius(10)
+        Text("\(match)").font(.callout).fontWeight(.medium).padding([.leading, .trailing],7).padding(.bottom, 2).background(Color.green).cornerRadius(10)
     }
 }
 

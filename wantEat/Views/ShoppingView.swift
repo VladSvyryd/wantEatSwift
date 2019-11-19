@@ -33,7 +33,7 @@ struct ShoppingView: View {
                         
                     
                     Button(action: {
-                        self.items.append("\(self.toBuyInput)")
+                        self.items.insert("\(self.toBuyInput)", at: 0)
                     }){
                         Text("Create Item")
                             .foregroundColor(Color.white).padding()
