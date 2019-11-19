@@ -111,6 +111,7 @@
 		949DD1A3235760E20035B7EF /* wantEat */ = {
 			isa = PBXGroup;
 			children = (
+				94C24B662374CBAB00BF7A38 /* Models */,
 				94BC580F2357C23C002CC273 /* Views */,
 				949DD1A4235760E20035B7EF /* AppDelegate.swift */,
 				949DD1A6235760E20035B7EF /* SceneDelegate.swift */,
@@ -160,6 +161,29 @@
 				9445CE6D235CBD89001058BE /* ProfilView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		94C24B662374CBAB00BF7A38 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				94C24B682374CBEB00BF7A38 /* Enteties */,
+				94C24B672374CBDC00BF7A38 /* NetworkManager */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		94C24B672374CBDC00BF7A38 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		94C24B682374CBEB00BF7A38 /* Enteties */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enteties;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
