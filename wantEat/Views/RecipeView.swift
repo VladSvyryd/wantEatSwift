@@ -19,9 +19,6 @@ struct ResponceItem: Identifiable{
 
 struct RecipeView: View {
     
-    init() {
-        UITableView.appearance().separatorStyle = .none
-    }
     
     let searchedResults:[ResponceItem] = [
         ResponceItem(id: 0, name: "Food1 Food1 Food1 Food1 Food1",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["apple","pork","bread"]),
@@ -32,7 +29,8 @@ struct RecipeView: View {
             List(searchedResults){res in
                 SearchResult(res: res).padding(.vertical, 2)
                 
-            }
+            }.onAppear { UITableView.appearance().separatorStyle = .none }
+                .onDisappear { UITableView.appearance().separatorStyle = .singleLine }
         }
         
     }
