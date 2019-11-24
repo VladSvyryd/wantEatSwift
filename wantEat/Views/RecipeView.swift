@@ -7,22 +7,14 @@
 //
 
 import SwiftUI
-struct ResponceItem: Identifiable{
-    let id: Int
-    let name: String
-    let imageUrl: String
-    let stars: Double
-    let healthy: Double
-    let likes: Int
-    let matchedIngredients: [String]
-}
+
 
 struct RecipeView: View {
     
     
     let searchedResults:[ResponceItem] = [
-        ResponceItem(id: 0, name: "Food1 Food1 Food1 Food1 Food1",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["apple","pork","bread"]),
-        ResponceItem(id: 1, name: "Food2",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["meat","eggs","milk"])]
+        ResponceItem(id: 0, name: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["apple","pork","bread"], vegan: true, category: ["lunch","lunch main","course main", "dish dinner"],cookingTime: 45,allIngredients: ["Avocado","Cauliflower","Broccoli","Purple potato","Cheese"],stepsDescription: "1 Step 2 Step",calories: 523.5, carbs: 65, fat: 0.2, protein: 16)
+       ]
     
     var body: some View {
         VStack(alignment: .leading){
@@ -93,7 +85,7 @@ struct SearchResult: View {
                 }
         )
             .sheet(isPresented: $showRecepieDetailsSheet) {
-                DetailsModalSheet(recepie: self.res)
+                RecipeDetailsModalSheetView(recipe: self.res)
                 
         }
     }
@@ -109,17 +101,8 @@ struct IconWithLabel: View{
         }
     }
 }
-struct DetailsModalSheet: View{
-    @Environment(\.presentationMode) var presentationMode
-    let recepie: ResponceItem
-    var body: some View{
-        VStack{
-            Text(recepie.name)
-            Button("Dismiss"){
-                self.presentationMode.wrappedValue.dismiss()
-            }}
-    }
-}
+
+// chip of products that user has for recipe
 struct MatchChip: View{
     let match: String
     var body: some View{
