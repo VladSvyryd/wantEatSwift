@@ -21,6 +21,11 @@ struct ShoppingView: View {
     @State var items = ["String","Blow"]
     var safeareaBottomHeight:CGFloat = 80
     
+    @State var data: [(String, [String])] = [
+          ("One", Array(0...10).map { "\($0)" }),
+          ("Two", Array(20...40).map { "\($0)" })
+      ]
+    @State var selection: [String] = [0, 20].map { "\($0)" }
     var body: some View {
         
         NavigationView{
@@ -35,6 +40,7 @@ struct ShoppingView: View {
                     }
                     .onDelete(perform: delete)
                 }.padding(.leading, -20.0)
+                MultiPicker(data: data, selection: $selection).frame(width: UIScreen.main.bounds.width / CGFloat(2), height: 100)
                 VStack{
                     Group{
                         Button(action: {
@@ -44,7 +50,9 @@ struct ShoppingView: View {
                             let shoppingWish = ShoppingWish(context: self.moc)
                             shoppingWish.id = UUID()
                             shoppingWish.name = "\(self.toBuyInput)"
-                            
+                            shoppingWish.dateCreated = Date()
+                            shoppingWish.quantity = 10
+                            shoppingWish.measure = "L"
                             if self.moc.hasChanges{
                                 try? self.moc.save()
                             }
@@ -108,6 +116,7 @@ struct ShoppingItemView:View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                 self.item.wasBought.toggle()
+                self.item.dateWasBought = Date()
                 if self.moc.hasChanges{
                     try? self.moc.save()
                 }

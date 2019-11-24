@@ -4,13 +4,14 @@
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateWasBought" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="measure" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="wasBought" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>
     <entity name="Student" representedClassName="Student" syncable="YES" codeGenerationType="class"/>
     <elements>
-        <element name="ShoppingWish" positionX="-36" positionY="27" width="128" height="28"/>
-        <element name="Student" positionX="-36" positionY="72" width="128" height="43"/>
+        <element name="ShoppingWish" positionX="42.8125" positionY="-181.27734375" width="128" height="148"/>
+        <element name="Student" positionX="-153.109375" positionY="-202.25" width="128" height="43"/>
     </elements>
 </model>
