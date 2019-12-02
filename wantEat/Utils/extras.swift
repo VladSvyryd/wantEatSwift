@@ -44,6 +44,10 @@ final class KeyboardResponder: ObservableObject {
     
 }
 
+
+// https://stackoverflow.com/questions/56567539/multi-component-picker-uipickerview-in-swiftui/56568715
+// Created by Matteo Pacini Jun 12 at 18:56
+// Create a data Picker with multiple columns
 struct MultiPicker: View  {
 
     typealias Label = String

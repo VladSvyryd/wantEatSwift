@@ -9,6 +9,9 @@
 import SwiftUI
 import CoreData
 
+// imported external library of sheetView from https://github.com/AndreaMiotto/PartialSheet
+//import PartialSheet
+
 
 struct ShoppingView: View {
     //managedObjectContext
@@ -21,14 +24,14 @@ struct ShoppingView: View {
     @State var items = ["String","Blow"]
     var safeareaBottomHeight:CGFloat = 80
     
-    @State var data: [(String, [String])] = [
-          ("One", Array(0...10).map { "\($0)" }),
-          ("Two", Array(20...40).map { "\($0)" })
-      ]
-    @State var selection: [String] = [0, 20].map { "\($0)" }
+    @State var openPickerWindow = false
+    
     var body: some View {
         
         NavigationView{
+            
+            
+            
             VStack(alignment: .center){
                 List{
                     
@@ -40,22 +43,14 @@ struct ShoppingView: View {
                     }
                     .onDelete(perform: delete)
                 }.padding(.leading, -20.0)
-                MultiPicker(data: data, selection: $selection).frame(width: UIScreen.main.bounds.width / CGFloat(2), height: 100)
+                
                 VStack{
                     Group{
                         Button(action: {
                             //self.items.insert("\(self.toBuyInput)", at: 0)
                             if(self.toBuyInput.isEmpty) {return}
+                            self.createShoopingItem()
                             
-                            let shoppingWish = ShoppingWish(context: self.moc)
-                            shoppingWish.id = UUID()
-                            shoppingWish.name = "\(self.toBuyInput)"
-                            shoppingWish.dateCreated = Date()
-                            shoppingWish.quantity = 10
-                            shoppingWish.measure = "L"
-                            if self.moc.hasChanges{
-                                try? self.moc.save()
-                            }
                             
                         }){
                             Text("Create Item")
@@ -67,15 +62,33 @@ struct ShoppingView: View {
                     
                 }
                 VStack{
-                    TextField("write", text: $toBuyInput).padding(.horizontal,15).padding(.vertical,20).border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                    TextField("write", text: $toBuyInput,  onCommit: openSheet ).padding(.horizontal,15).padding(.vertical,20).border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }.padding(.bottom, keyboard.currentHeight != 0 ? keyboard.currentHeight - safeareaBottomHeight:keyboard.currentHeight ).animation(.spring())
                 
                 
             }
             .navigationBarTitle("Shopping List",displayMode: .inline)
             
+            
         }
         
+    }
+    func openSheet(){
+        withAnimation{
+            self.openPickerWindow = true
+        }
+        
+    }
+    func createShoopingItem(){
+        let shoppingWish = ShoppingWish(context: self.moc)
+        shoppingWish.id = UUID()
+        shoppingWish.name = "\(self.toBuyInput)"
+        shoppingWish.dateCreated = Date()
+        shoppingWish.quantity = 10
+        shoppingWish.measure = "L"
+        if self.moc.hasChanges{
+            try? self.moc.save()
+        }
     }
     func delete(at offsets: IndexSet){
         for index in offsets {
@@ -92,37 +105,75 @@ struct ShoppingItemView:View {
     @Environment(\.managedObjectContext) var moc
     var item: ShoppingWish
     @State private var doneIsShowing = false
+    
     var body: some View {
-        HStack(spacing: 18.0){
-            HStack{
-                Spacer()
-                Image("done")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 17, height: 12)
+        NavigationLink(destination: MeasuresView(item: item)) {
+            HStack(spacing: 18.0){
+                HStack{
+                    Spacer()
+                    Image("done")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 17, height: 12)
+                        
+                        .animation(.interpolatingSpring(mass: 1.0,stiffness: 100.0,damping: 10.5,initialVelocity: 0))
+                        .offset(x: !self.doneIsShowing ?  CGFloat(-120) : CGFloat(0.0))
                     
-                    .animation(.interpolatingSpring(mass: 1.0,stiffness: 100.0,damping: 10.5,initialVelocity: 0))
-                    .offset(x: !self.doneIsShowing ?  CGFloat(-120) : CGFloat(0.0))
+                }.frame(width: 40.0, height: 20.0)
+                Text("\(item.name ?? "Unknowing")")
                 
-            }.frame(width: 40.0, height: 20.0)
-            Text("\(item.name ?? "Unknowing")")
-            
-        }.padding(.trailing,20).onTapGesture {
-            
-            withAnimation {
-                self.doneIsShowing.toggle()
+                
+                
+            }.padding(.trailing,20).onTapGesture {
+                
+                withAnimation {
+                    self.doneIsShowing.toggle()
+                    
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    self.item.wasBought.toggle()
+                    self.item.dateWasBought = Date()
+                    if self.moc.hasChanges{
+                        try? self.moc.save()
+                    }
+                }
                 
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                self.item.wasBought.toggle()
-                self.item.dateWasBought = Date()
-                if self.moc.hasChanges{
-                    try? self.moc.save()
+        }
+    }
+}
+struct MeasuresView:View {
+    var item: ShoppingWish
+    var measures = ["N/A","L", "g", "kg"]
+    var numbers = [1,5, 10, 20, 25, 50, 100,200,300,400,500]
+    @State private var selectedMeasure = 0
+    @State private var selectedNumber = 0
+    
+    var body: some View{
+        NavigationView{
+            Form{
+                Section{
+                    Picker(selection: $selectedMeasure, label:Text("N/A")){
+                        ForEach(0 ..< measures.count){
+                            Text(self.measures[$0])
+                        }
+                    }.pickerStyle(SegmentedPickerStyle()).background(Color.red)
+                    Picker(selection: $selectedNumber, label:Text("N/A")){
+                        ForEach(0 ..< numbers.count){
+                            Text("\(self.numbers[$0])")
+                        }
+                    }.pickerStyle(SegmentedPickerStyle()).background(Color.red)
+                    VStack{
+                        Text("\(item.name ?? "Unknown")")
+                        
+                        
+                    }
                 }
             }
             
-        }
+        }.navigationBarTitle("\(item.name ?? "Unknown")")
+        
     }
 }
 
