@@ -73,7 +73,7 @@ struct KitchenView: View {
     
     var body: some View {
         
-        VStack{
+        VStack(spacing: 20){
             ScrollView(.horizontal, showsIndicators: false){
                 HStack(alignment: .center){
                     ForEach(categories) { category in
@@ -102,35 +102,55 @@ struct KitchenView: View {
                     }){
                         Text("\(self.mealCategories[i])")
                     }
-                    .padding()
-                }
-            }
-            HStack(alignment: .top){
-                Text("Popular")
-                Spacer()
-                Text("...")
-            }.padding(.horizontal,30)
-            Spacer()
-           
-            VStack(alignment: .center){
-                Text("Stack Begin")
-                List(networkManager.receipes, id: \.self){
-                obj in
-                  
-                        Text("dddd")
                     
                 }
-                Text("Stack End")
-                
-                
             }
-            Spacer()
-            
+            HStack(alignment: .center){
+                Text("Popular")
+                    .font(.headline)
+                    
+                Spacer()
+                Button(action:{
+                    
+                }){
+                    Image("dots").resizable().aspectRatio(contentMode: .fit).foregroundColor(Color.black)
+                        .frame(width: 28, height: 6)
+                    
+                }
+               
+            }.padding(.horizontal,40)
+           
+            VStack(spacing: 20){
+                HugeButton(image: Image("dots"), name: "salad")
+                         HugeButton(image: Image("dots"), name: "soup")
+                         HugeButton(image: Image("dots"), name: "sauce")
+            }
+         Spacer()
         }
         
         
         
     }
+}
+
+struct HugeButton: View{
+    var image: Image
+    var name: String
+    var body: some View {
+        Button(action:{
+                           
+                       }){
+                        ZStack{
+                            image.resizable().aspectRatio(contentMode: .fit).foregroundColor(Color.black)
+                                                          .frame(width: 28, height: 6)
+                            Text(name)
+                        }
+                          
+                           
+        }.padding().frame(width: UIScreen.main.bounds.width - 80, height: 70).background(Color.orange).cornerRadius(20)
+       
+    }
+    
 }
 
 struct Receipe: Codable & Hashable {
@@ -160,7 +180,7 @@ struct BoxView: View{
             
             Image(category.imageUrl)
                 .frame(width: 200, height: 300)
-                .cornerRadius(10)
+                .cornerRadius(15)
                 .shadow(radius: 10)
                 .aspectRatio(contentMode: .fit)
             HStack(alignment: .top){
@@ -183,10 +203,12 @@ struct BoxView: View{
                     }
                     
                 }
-                .padding()
-                .background(Color.init(red: 0, green: 0, blue: 0, opacity: 0.55))
-            }
-            
+                .padding(0)
+                
+            }.frame(width: 200, height: 80)
+               
+            .background(Color.init(red: 0, green: 0, blue: 0, opacity: 0.55))
+             .cornerRadius(15, corners: [.bottomLeft, .bottomRight])
         }
     }
 }
@@ -197,3 +219,4 @@ struct SwiftUIView_Previews: PreviewProvider {
         KitchenView()
     }
 }
+

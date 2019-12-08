@@ -7,33 +7,25 @@
 //
 
 import SwiftUI
-struct ShoppingWishTest : Identifiable{
-    var name: String
-    var id: UUID
-    var quantity: Double
-    var wasBought: Bool
-    var dataCreated: Date
-    var dateWasBought: Date
-    var measure: String
-}
+
 struct I_HaveView: View {
     
     //managedObjectContext
     @Environment(\.managedObjectContext) var moc
     
-    @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: []) var sItems: FetchedResults<ShoppingWish>
-    //var sItems = [ShoppingWishTest(name: "Milk", id: UUID(), quantity: 1, wasBought: true, dataCreated: Date().addingTimeInterval(-60000), dateWasBought: Date().addingTimeInterval(-10000), measure: "L")]
+    @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var sItems: FetchedResults<ShoppingWish>
+   
     var body: some View {
         NavigationView{
             List{
                 
-                ForEach(sItems, id: \.id){obj in //\.id
+                ForEach(self.sItems, id: \.id){obj in //\.id
                     obj.wasBought ?
                         IngredientVeiw(item: obj)  //?? "Unkown"
                             .listRowInsets(EdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)) : nil
                     
                 }
-                .onDelete(perform: delete)
+                .onDelete(perform: self.delete)
             }.padding(.leading, 0.0)
         }.navigationBarTitle("My Ingredients",displayMode: .inline)
     }
@@ -57,7 +49,7 @@ struct IngredientVeiw : View{
     
     
     var body: some View{
-        NavigationLink(destination: IngredientDetailView(item: item)) {
+        NavigationLink(destination: MeasuresView(item: self.item, viewName: "Ihave")) {
             HStack{
                 HStack{
                     Spacer()
@@ -89,20 +81,27 @@ struct IngredientVeiw : View{
                 
                 VStack(alignment: .leading){
                     Text("\(item.name ?? "value")")
-                    Text("\(item.quantity, specifier: "%.0f") \(item.measure ?? "_")").foregroundColor(Color.gray).font(.system(size: 15))
+                    HStack(spacing: 2.0){
+                        if(self.item.quantity > 0 ){
+                            Text("\(self.item.quantity, specifier:  "%.0f")").foregroundColor(Color.gray).font(.system(size: 15))
+                        }
+                        if(self.item.measure != ""){
+                            Text("\(self.item.measure ?? "N/A")").foregroundColor(Color.gray).font(.system(size: 15))
+                        }
+                    }
                 }
                 Spacer()
                 
                 Text("\(formatDateAgo(dateToFormat: item.dateWasBought ?? Date()))").foregroundColor(Color.gray).font(.system(size: 17))
             }
-        }.navigationBarTitle("My Ingredients")
+        }.navigationBarTitle("My Ingredients",displayMode: .inline)
     }
 }
 func formatDateAgo(dateToFormat:Date) -> String{
     
     // ask for the full relative date
     let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .full
+    formatter.unitsStyle = .abbreviated
     
     // get exampleDate relative to the current date
     return formatter.localizedString(for: dateToFormat, relativeTo: Date())
