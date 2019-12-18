@@ -161,6 +161,7 @@ struct ShoppingItemView:View {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self.item.wasBought.toggle()
+                     self.item.useForSearch.toggle()
                     self.item.dateWasBought = Date()
                     if self.moc.hasChanges{
                         try? self.moc.save()

@@ -21,8 +21,13 @@
 		949DD1CA235760F30035B7EF /* wantEatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DD1C9235760F30035B7EF /* wantEatUITests.swift */; };
 		94BC58112357C25D002CC273 /* KitchenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC58102357C25D002CC273 /* KitchenView.swift */; };
 		94BC58132357C334002CC273 /* I_HaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC58122357C334002CC273 /* I_HaveView.swift */; };
+		BF23482123A9387E00B9913A /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF23482023A9387E00B9913A /* File.swift */; };
+		BF52D7DA23A96CE90072D540 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF52D7D923A96CE90072D540 /* NetworkManager.swift */; };
+		BF5526AE23A68F12005ED71D /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = BF5526AD23A68F12005ED71D /* WaterfallGrid */; };
+		BF5526B123A690F5005ED71D /* SwiftUIExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = BF5526B023A690F5005ED71D /* SwiftUIExtensions */; };
 		BF5C89E023884DC7001131B7 /* RecipeDetailsModalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C89DF23884DC7001131B7 /* RecipeDetailsModalSheetView.swift */; };
 		BF5C89E323884F46001131B7 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C89E223884F46001131B7 /* RecipeModel.swift */; };
+		BF62A7CD23A8FFCE0088840D /* QGrid in Frameworks */ = {isa = PBXBuildFile; productRef = BF62A7CC23A8FFCE0088840D /* QGrid */; };
 		BF8755002395AC38002C05C9 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = BF8754FF2395AC38002C05C9 /* PartialSheet */; };
 		BFF3485F2385DEAB00204825 /* extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3485E2385DEAB00204825 /* extras.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +70,8 @@
 		949DD1CB235760F30035B7EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94BC58102357C25D002CC273 /* KitchenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenView.swift; sourceTree = "<group>"; };
 		94BC58122357C334002CC273 /* I_HaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I_HaveView.swift; sourceTree = "<group>"; };
+		BF23482023A9387E00B9913A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		BF52D7D923A96CE90072D540 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = wantEat/Views/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
 		BF5C89DF23884DC7001131B7 /* RecipeDetailsModalSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsModalSheetView.swift; sourceTree = "<group>"; };
 		BF5C89E223884F46001131B7 /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		BFF3485E2385DEAB00204825 /* extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extras.swift; sourceTree = "<group>"; };
@@ -75,7 +82,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF62A7CD23A8FFCE0088840D /* QGrid in Frameworks */,
+				BF5526B123A690F5005ED71D /* SwiftUIExtensions in Frameworks */,
 				BF8755002395AC38002C05C9 /* PartialSheet in Frameworks */,
+				BF5526AE23A68F12005ED71D /* WaterfallGrid in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +179,7 @@
 				9445CE69235CBCD1001058BE /* RecipeView.swift */,
 				9445CE6B235CBD42001058BE /* ShoppingView.swift */,
 				9445CE6D235CBD89001058BE /* ProfilView.swift */,
+				BF23482023A9387E00B9913A /* File.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -185,6 +196,7 @@
 		94C24B672374CBDC00BF7A38 /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
+				BF52D7D923A96CE90072D540 /* NetworkManager.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -223,6 +235,9 @@
 			name = wantEat;
 			packageProductDependencies = (
 				BF8754FF2395AC38002C05C9 /* PartialSheet */,
+				BF5526AD23A68F12005ED71D /* WaterfallGrid */,
+				BF5526B023A690F5005ED71D /* SwiftUIExtensions */,
+				BF62A7CC23A8FFCE0088840D /* QGrid */,
 			);
 			productName = wantEat;
 			productReference = 949DD1A1235760E20035B7EF /* wantEat.app */;
@@ -298,6 +313,9 @@
 			mainGroup = 949DD198235760E10035B7EF;
 			packageReferences = (
 				BF8754FE2395AC38002C05C9 /* XCRemoteSwiftPackageReference "PartialSheet" */,
+				BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */,
+				BF5526AF23A690F5005ED71D /* XCRemoteSwiftPackageReference "SwiftUIExtensions" */,
+				BF62A7CB23A8FFCE0088840D /* XCRemoteSwiftPackageReference "QGrid" */,
 			);
 			productRefGroup = 949DD1A2235760E20035B7EF /* Products */;
 			projectDirPath = "";
@@ -352,6 +370,8 @@
 				949DD1AC235760E20035B7EF /* ContentView.swift in Sources */,
 				949DD1A7235760E20035B7EF /* SceneDelegate.swift in Sources */,
 				9445CE6E235CBD89001058BE /* ProfilView.swift in Sources */,
+				BF52D7DA23A96CE90072D540 /* NetworkManager.swift in Sources */,
+				BF23482123A9387E00B9913A /* File.swift in Sources */,
 				94BC58112357C25D002CC273 /* KitchenView.swift in Sources */,
 				BF5C89E323884F46001131B7 /* RecipeModel.swift in Sources */,
 			);
@@ -676,6 +696,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paololeonardi/WaterfallGrid.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.2;
+			};
+		};
+		BF5526AF23A690F5005ED71D /* XCRemoteSwiftPackageReference "SwiftUIExtensions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftExtensions/SwiftUIExtensions.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
+		BF62A7CB23A8FFCE0088840D /* XCRemoteSwiftPackageReference "QGrid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Q-Mobile/QGrid.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
 		BF8754FE2395AC38002C05C9 /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
@@ -687,6 +731,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BF5526AD23A68F12005ED71D /* WaterfallGrid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */;
+			productName = WaterfallGrid;
+		};
+		BF5526B023A690F5005ED71D /* SwiftUIExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5526AF23A690F5005ED71D /* XCRemoteSwiftPackageReference "SwiftUIExtensions" */;
+			productName = SwiftUIExtensions;
+		};
+		BF62A7CC23A8FFCE0088840D /* QGrid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF62A7CB23A8FFCE0088840D /* XCRemoteSwiftPackageReference "QGrid" */;
+			productName = QGrid;
+		};
 		BF8754FF2395AC38002C05C9 /* PartialSheet */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF8754FE2395AC38002C05C9 /* XCRemoteSwiftPackageReference "PartialSheet" */;

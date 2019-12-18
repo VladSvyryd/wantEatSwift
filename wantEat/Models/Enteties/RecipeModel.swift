@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+
 struct ResponceItem: Identifiable{
     let id: Int
     let name: String
@@ -26,3 +28,13 @@ struct ResponceItem: Identifiable{
     let protein: Double
 }
 
+struct IngredientChipModel: Identifiable{
+    let id = UUID()
+    let name: String
+}
+extension IngredientChipModel: Equatable {
+    static func == (lhs: IngredientChipModel, rhs: IngredientChipModel) -> Bool {
+        return
+            lhs.id == rhs.id 
+    }
+}

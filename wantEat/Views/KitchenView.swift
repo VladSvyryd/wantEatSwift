@@ -10,48 +10,6 @@ import SwiftUI
 import Foundation
 import Combine
 
-class NetworkManager: ObservableObject {
-    var didChange = PassthroughSubject<NetworkManager,Never>()
-    var receipes = [Receipe](){
-        didSet{
-            didChange.send(self)
-        }
-    }
-    init(){
-        guard let url = URL(string: "ttps://api.spoonacular.com/food/ingredients/autocomplete?query=appl&number=5&apiKey=22a9074551b64e11a4f4ee8bd2f7470f")
-            else {return}
-        URLSession.shared.dataTask(with: url){ (data,responce,error) in
-            if let data = data {
-                do{
-                    let res = try JSONDecoder().decode([Receipe].self, from: data)
-                    // do fetch in main thread
-                    DispatchQueue.main.async {
-                        
-                        self.receipes = res
-                        print(self.receipes)
-                    }
-                }catch let error{
-                    print(error)
-                }
-                
-            }
-            
-            //guard let data = data else{ return }
-            //let recepies = try! JSONDecoder().decode([Receipe].self, from: data)
-            
-            //DispatchQueue.main.async {
-            //  print(recepies)
-            // self.receipes = recepies
-            //}
-            
-            
-            print("completed fetching json")
-        }.resume()
-        
-    }
-  
-}
-
 struct RandomRecipe: Identifiable{
     var id: Int?
     let title, imageUrl: String
@@ -121,9 +79,9 @@ struct KitchenView: View {
             }.padding(.horizontal,40)
            
             VStack(spacing: 20){
-                HugeButton(image: Image("dots"), name: "salad")
-                         HugeButton(image: Image("dots"), name: "soup")
-                         HugeButton(image: Image("dots"), name: "sauce")
+                HugeButton(image: Image("tomatoes"), name: "salad")
+                         HugeButton(image: Image("soup"), name: "soup")
+                         HugeButton(image: Image("dips"), name: "sauce")
             }
          Spacer()
         }
@@ -136,18 +94,21 @@ struct KitchenView: View {
 struct HugeButton: View{
     var image: Image
     var name: String
+    @State var clicked = false
     var body: some View {
         Button(action:{
-                           
+            //self.clicked.toggle()
                        }){
                         ZStack{
-                            image.resizable().aspectRatio(contentMode: .fit).foregroundColor(Color.black)
-                                                          .frame(width: 28, height: 6)
-                            Text(name)
-                        }
+                            image.renderingMode(.original).resizable().aspectRatio(1,contentMode: .fill).scaleEffect(   1).frame(width: UIScreen.main.bounds.width - 100, height: 70).cornerRadius(20).blendMode(.screen)
+                                .overlay(
+                                    !clicked ?  Rectangle().foregroundColor(Color.init(hue: 0, saturation: 0, brightness: 0, opacity: 0.35)).cornerRadius(20) : nil
+                            );   Text(name).foregroundColor(Color.white).fontWeight(.semibold).padding(.horizontal,5).cornerRadius(10)
+                            
+                        }.shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
                           
                            
-        }.padding().frame(width: UIScreen.main.bounds.width - 80, height: 70).background(Color.orange).cornerRadius(20)
+        }
        
     }
     
