@@ -31,6 +31,9 @@ struct ResponceItem: Identifiable{
 struct IngredientChipModel: Identifiable{
     let id = UUID()
     let name: String
+    let wasBought: Bool
+    let measure: String?
+    let quantity: Double?
 }
 extension IngredientChipModel: Equatable {
     static func == (lhs: IngredientChipModel, rhs: IngredientChipModel) -> Bool {
