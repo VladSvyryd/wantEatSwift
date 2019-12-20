@@ -13,12 +13,14 @@ import QGrid
 import CoreData
 
 struct RecipeView: View {
+    // Service instance to comunicate with API
     @State var networkManager = NetworkManager()
+    // instance of CoreData to save/delete/update CoreData
     @Environment(\.managedObjectContext) var moc
-    let searchedResults:[ResponceItem] = [
-        ResponceItem(id: 0, name: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["apple","pork","bread"], vegan: true, category: ["lunch","lunch main","course main", "dish dinner"],cookingTime: 45,allIngredients: ["Avocado","Cauliflower","Broccoli","Purple potato","Cheese"],stepsDescription: "1 Step 2 Step",calories: 523.5, carbs: 65, fat: 0.2, protein: 16)
+    @State var searchedResults:[ResponceItem] = [
+        ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "lunch", spoonacularScore: 4, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45)
     ]
-    @State var test:[Receipe] = [Receipe(name: "1", image: ""),Receipe(name: "12", image: "")]
+    
     
     
     @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var sItems: FetchedResults<ShoppingWish>
@@ -60,27 +62,33 @@ struct RecipeView: View {
                 
             }
             .onAppear { UITableView.appearance().separatorStyle = .none
-                print(self.items)
+                
             }
             .onDisappear { UITableView.appearance().separatorStyle = .singleLine }
-            List(test, id: \.self){res in
-                Text(res.name)
-                
-            }
             
-            Button(action:{self.networkManager.fetch(matching: "potato")
-                self.test.append(contentsOf: self.networkManager.receipes)
-                print(self.test)
-            }){
-                Text("TEST")
-                    .foregroundColor(Color.black)
-                    .frame(width: 28, height: 6)
-                    .background(Color.red)
+            
+            
+            HStack{
+                Spacer()
+                Button(action: {
+                    print("button clicked")
+                    self.networkManager.fetchRecipes(stringQueryOfIngredients: "muschrooms,meat", numberOfResults: 1){
+                        self.searchedResults.append($0.results[0])
+                    }
+                 
+                }) {
+                    Text("Filter").foregroundColor(Color.white).padding(5)
+                }.frame(width:UIScreen.main.bounds.width / 2.3)
+                    .background(Color.green)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(color: Color.green,radius: 5)
                 
-            }
+                Spacer()
+            }.padding(.vertical , 10)
         }.onAppear(perform: { self.fetchCoreDataAsArray() } )
         
     }
+    // map an array with type IngredientChipModel
     func fetchCoreDataAsArray(){
         items = Array(sItems.map { IngredientChipModel(name: $0.name!, wasBought: $0.wasBought, measure: $0.measure,quantity: $0.quantity) })
     }
@@ -88,11 +96,8 @@ struct RecipeView: View {
         //arr.append( IngredientChipModel(name: inputField))
         
         items.append(IngredientChipModel(name: self.inputField, wasBought: true, measure: "",quantity: 0))
-        
-        
-        
         self.inputField = ""
-        print(items)
+        
     }
 }
 
@@ -102,35 +107,30 @@ struct SearchResult: View {
     var body: some View{
         HStack(alignment: .top){
             
-            Image(res.imageUrl)
+            Image(res.image)
                 .padding(.bottom)
                 .frame(width: 110, height: 95)
                 .cornerRadius(10)
                 .aspectRatio(contentMode: .fit)
-            
-            
-            
             VStack(alignment: .leading){
                 HStack(alignment: .top){
-                    Text("\(res.name)")
+                    Text("\(res.title)")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .lineLimit(2)
                 }
-                
-                
                 HStack(alignment: .bottom){
                     
-                    IconWithLabel(iconName: "star", labelName: String(format: "%.1f",res.stars))
-                    IconWithLabel(iconName: "healthy", labelName: String(format: "%.1f",res.healthy))
+                    IconWithLabel(iconName: "star", labelName: String(format: "%.1f",res.spoonacularScore))
+                    IconWithLabel(iconName: "healthy", labelName: String(format: "%.1f",res.healthScore))
                     IconWithLabel(iconName: "like", labelName: String(res.likes))
                 }
                 HStack(alignment: .bottom){
-                    ForEach(res.matchedIngredients,id : \.self){
-                        chip in
-                        MatchChip(match: chip)
-                    }
-                    
+//                    ForEach(res.matchedIngredients,id : \.self){
+//                        chip in
+//                        MatchChip(match: chip)
+//                    }
+                    Text("here are matched ingredients")
                 }
                 
             }.padding(.horizontal, 7).frame(height:95)
@@ -147,10 +147,10 @@ struct SearchResult: View {
                         self.showRecepieDetailsSheet.toggle()
                 }
         )
-            .sheet(isPresented: $showRecepieDetailsSheet) {
-                RecipeDetailsModalSheetView(recipe: self.res)
-                
-        }
+//            .sheet(isPresented: $showRecepieDetailsSheet) {
+//                RecipeDetailsModalSheetView(recipe: self.res)
+//                
+//        }
     }
 }
 
@@ -185,9 +185,6 @@ struct MatchChip: View{
 
 struct IngredientChip: View{
     let chip: IngredientChipModel
-    
-    
-    
     @Binding var chipsArray:[IngredientChipModel]
     var body: some View{
         VStack{
@@ -224,15 +221,7 @@ struct IngredientChip: View{
             
         }
     }
-    //    func changeShoppingItem(shoppingWish: ShoppingWish){
-    //
-    //        shoppingWish.useForSearch.toggle()
-    //        if self.moc.hasChanges{
-    //            try? self.moc.save()
-    //
-    //        }
-    //
-    //    }
+    
 }
 
 struct RecipeView_Previews: PreviewProvider {

@@ -114,24 +114,12 @@ struct HugeButton: View{
     
 }
 
-struct Receipe: Codable & Hashable {
+struct Recipe: Codable & Hashable {
     var name: String
     var image: String
 }
 
-struct Line: View{
-    
-    var body: some View {
-        
-        Path { path in
-            path.move(to:CGPoint(x: 0,y: 3))
-            path.addLine(to:CGPoint(x: 85, y: 3))
-            path.addLine(to:CGPoint(x: 85, y: 0))
-            path.addLine(to:CGPoint(x: 0, y: 0))
-        } .fill(Color.init(red: 0, green: 0, blue: 0, opacity: 0.85))
-    }
-    
-}
+
 
 struct BoxView: View{
     let category: RandomRecipe

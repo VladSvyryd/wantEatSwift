@@ -9,23 +9,35 @@
 import Foundation
 import CoreData
 
-struct ResponceItem: Identifiable{
+struct ResponceResult:Codable & Hashable{
+    let results: [ResponceItem]
+}
+
+struct ResponceItem: Identifiable, Codable ,  Hashable{
     let id: Int
-    let name: String
-    let imageUrl: String
-    let stars: Double
-    let healthy: Double
+    let title: String
+    let image: String
+    let spoonacularScore: Double
+    let healthScore: Double
     let likes: Int
-    let matchedIngredients: [String]
+    //let matchedIngredients: [String]
     let vegan: Bool
-    let category: [String]
-    let cookingTime: Double
-    let allIngredients: [String]
-    let stepsDescription: String
-    let calories: Double
-    let carbs: Double
-    let fat: Double
-    let protein: Double
+    let dishTypes: [String]
+    let readyInMinutes: Double
+    //let usedIngredients: [String]
+    //let analyzedInstructions: String
+    //let calories: Double
+    //let carbs: Double
+    //let fat: Double
+    //let protein: Double
+    
+//    private enum CodingKeys: String, CodingKey {
+//           case success = "success"
+//           case timestamp = "timestamp"
+//           case base = "base"
+//           case date = "date"
+//           case rates = "rates"
+//       }
 }
 
 struct IngredientChipModel: Identifiable{

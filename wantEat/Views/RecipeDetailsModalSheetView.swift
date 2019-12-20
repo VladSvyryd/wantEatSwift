@@ -14,24 +14,24 @@ struct RecipeDetailsModalSheetView: View {
     var body: some View{
         VStack(alignment: .center){
             ZStack(alignment: .bottomTrailing){
-                Image(recipe.imageUrl).resizable().aspectRatio(contentMode: .fill).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
+                Image(recipe.image).resizable().aspectRatio(contentMode: .fill).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
                 HStack(spacing: 0.0){Text("vegan").foregroundColor(Color(.darkGray)).padding(.vertical, 2).padding(.horizontal,10)
                     
                 }.background(Color(.yellow)).offset(x: 0, y: -25)
                 HStack{
-                    WhiteChip(iconName: "star", text: String(format: "%.1f",recipe.stars))
-                    WhiteChip(iconName: "healthy", text: String(format: "%.1f",recipe.healthy))
+                    WhiteChip(iconName: "star", text: String(format: "%.1f",recipe.spoonacularScore))
+                    WhiteChip(iconName: "healthy", text: String(format: "%.1f",recipe.healthScore))
                     
                 }.offset(x: -45, y: 12)
                 
                 
             }
             VStack(spacing: 12.0){
-                Text(recipe.name)
+                Text(recipe.title)
                     .font(.system(size: 26))
                     .fontWeight(.bold)
                 HStack{
-                    ForEach(recipe.category, id: \.self){
+                    ForEach(recipe.dishTypes, id: \.self){
                         cat in
                         
                         Text(cat)
@@ -53,38 +53,35 @@ struct RecipeDetailsModalSheetView: View {
                 }
                 HStack(alignment: .top, spacing: 8.0){
                     Image("stopwatch").resizable().frame(width:26, height :26)
-                    Text("Cooking time: \(String(recipe.stars)) min.")
+                    Text("Cooking time: \(String(recipe.spoonacularScore)) min.")
                         .fontWeight(.semibold)
                     Spacer()
                 }
-                HStack{
-                    ForEach(recipe.allIngredients, id: \.self){
-                        cat in
-                        
-                        Text(cat)
-                            .fontWeight(.bold)
-                            .lineLimit(nil)
-                            .padding(.vertical, 4)
-                            .padding(.horizontal,9)
-                        
-                        
-                        
-                        
-                    }
-                }
+//                HStack{
+//                    ForEach(recipe.usedIngredients, id: \.self){
+//                        cat in
+//                        
+//                        Text(cat)
+//                            .fontWeight(.bold)
+//                            .lineLimit(nil)
+//                            .padding(.vertical, 4)
+//                            .padding(.horizontal,9)
+//                        
+//                        
+//                        
+//                        
+//                    }
+//                }
                 VStack(alignment: .leading){
-                    Text(String(recipe.stepsDescription))
-                    Text(String(recipe.stepsDescription))
-                    Text(String(recipe.stepsDescription))
-                    Text(String(recipe.stepsDescription))
-                    Text(String(recipe.stepsDescription))
+                    Text("description")
+                   
                 }
-                HStack(spacing: 11.0){
-                    MeasureUnit(measureName: "Calories",color: .red)
-                    MeasureUnit(measureName: "Carbs",color: .blue)
-                    MeasureUnit(measureName: "Fat",color: .orange)
-                    MeasureUnit(measureName: "Protein",color: .white)
-                }
+//                HStack(spacing: 11.0){
+//                    MeasureUnit(measureName: "Calories",color: .red)
+//                    MeasureUnit(measureName: "Carbs",color: .blue)
+//                    MeasureUnit(measureName: "Fat",color: .orange)
+//                    MeasureUnit(measureName: "Protein",color: .white)
+//                }
                 
             }.padding(.horizontal,40).padding(.top,35).frame(width: UIScreen.main.bounds.width).background(Color(.white))
             Spacer()
@@ -138,8 +135,8 @@ struct Flagy: View{
     }
     
 }
-struct RecipeDetailsModalSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeDetailsModalSheetView(recipe: ResponceItem(id: 0, name: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",imageUrl: "lunch", stars: 4, healthy: 19.0, likes: 300,matchedIngredients: ["apple","pork","bread"], vegan: true,category: ["lunch","lunch main","course main", "dish dinner"],cookingTime: 45,allIngredients: ["Avocado","Cauliflower","Broccoli","Purple potato","Cheese"],stepsDescription: "1 Step 2 Step",calories: 523.5, carbs: 65, fat: 0.2, protein: 16))
-    }
-}
+//struct RecipeDetailsModalSheetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecipeDetailsModalSheetView(recipe: ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "lunch", spoonacularScore: 4, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45,usedIngredients: ["Avocado","Cauliflower","Broccoli","Purple potato","Cheese"]))
+//    }
+//}
