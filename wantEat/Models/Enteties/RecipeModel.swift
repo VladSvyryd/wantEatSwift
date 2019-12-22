@@ -9,11 +9,12 @@
 import Foundation
 import CoreData
 
-struct ResponceResult:Codable & Hashable{
+struct ResponceResult:Codable{
     let results: [ResponceItem]
 }
 
-struct ResponceItem: Identifiable, Codable ,  Hashable{
+struct ResponceItem: Identifiable, Codable{
+
     let id: Int
     let title: String
     let image: String
@@ -24,20 +25,58 @@ struct ResponceItem: Identifiable, Codable ,  Hashable{
     let vegan: Bool
     let dishTypes: [String]
     let readyInMinutes: Double
-    //let usedIngredients: [String]
-    //let analyzedInstructions: String
+    let usedIngredients: [UsedIngredient]
+    let analyzedInstructions: [AnalyzedInstruction]
     //let calories: Double
     //let carbs: Double
     //let fat: Double
     //let protein: Double
     
-//    private enum CodingKeys: String, CodingKey {
-//           case success = "success"
-//           case timestamp = "timestamp"
-//           case base = "base"
-//           case date = "date"
-//           case rates = "rates"
-//       }
+    //    private enum CodingKeys: String, CodingKey {
+    //           case success = "success"
+    //           case timestamp = "timestamp"
+    //           case base = "base"
+    //           case date = "date"
+    //           case rates = "rates"
+    //       }
+    struct UsedIngredient: Codable, Identifiable {
+        let id: Int
+        let amount: Double
+        let unit: String
+        let name: String
+        let originalString: String
+        let imageUrl: String
+        private enum CodingKeys: String, CodingKey {
+            case id
+            case amount
+            case unit
+            case name
+            case originalString
+            case imageUrl = "image"
+        }
+        
+    }
+    struct AnalyzedInstruction: Codable, Identifiable {
+        let id = UUID()
+        let steps: [Step]
+        
+    }
+    struct Step:Codable, Identifiable{
+        let id = UUID()
+        let number: Int
+        let step: String
+        let ingredients: [Ingredient]
+        let length: TimeLength?
+    }
+    struct Ingredient: Codable,Identifiable{
+        let id: Int
+        let name: String
+    }
+    struct TimeLength: Codable{
+        let number: Int
+        let unit: String
+        
+    }
 }
 
 struct IngredientChipModel: Identifiable{

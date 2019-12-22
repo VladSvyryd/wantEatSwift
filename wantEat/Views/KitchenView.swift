@@ -100,7 +100,7 @@ struct HugeButton: View{
             //self.clicked.toggle()
                        }){
                         ZStack{
-                            image.renderingMode(.original).resizable().aspectRatio(1,contentMode: .fill).scaleEffect(   1).frame(width: UIScreen.main.bounds.width - 100, height: 70).cornerRadius(20).blendMode(.screen)
+                            image.renderingMode(.original).resizable().aspectRatio(1,contentMode: .fill).scaleEffect(1).frame(width: UIScreen.main.bounds.width - 100, height: 70).cornerRadius(20).blendMode(.screen)
                                 .overlay(
                                     !clicked ?  Rectangle().foregroundColor(Color.init(hue: 0, saturation: 0, brightness: 0, opacity: 0.35)).cornerRadius(20) : nil
                             );   Text(name).foregroundColor(Color.white).fontWeight(.semibold).padding(.horizontal,5).cornerRadius(10)

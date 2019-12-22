@@ -14,7 +14,7 @@ struct RecipeDetailsModalSheetView: View {
     var body: some View{
         VStack(alignment: .center){
             ZStack(alignment: .bottomTrailing){
-                Image(recipe.image).resizable().aspectRatio(contentMode: .fill).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
+                URLImage(url: recipe.image).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
                 HStack(spacing: 0.0){Text("vegan").foregroundColor(Color(.darkGray)).padding(.vertical, 2).padding(.horizontal,10)
                     
                 }.background(Color(.yellow)).offset(x: 0, y: -25)
@@ -57,31 +57,30 @@ struct RecipeDetailsModalSheetView: View {
                         .fontWeight(.semibold)
                     Spacer()
                 }
-//                HStack{
-//                    ForEach(recipe.usedIngredients, id: \.self){
-//                        cat in
-//                        
-//                        Text(cat)
-//                            .fontWeight(.bold)
-//                            .lineLimit(nil)
-//                            .padding(.vertical, 4)
-//                            .padding(.horizontal,9)
-//                        
-//                        
-//                        
-//                        
-//                    }
-//                }
+                HStack{
+                    ForEach(recipe.usedIngredients){ingredient in
+                        
+                        Text("\(ingredient.name)")
+                            .fontWeight(.bold)
+                            .lineLimit(nil)
+                            .padding(.vertical, 4)
+                            .padding(.horizontal,9)
+                        
+                        
+                        
+                        
+                    }
+                }
                 VStack(alignment: .leading){
                     Text("description")
-                   
+                    
                 }
-//                HStack(spacing: 11.0){
-//                    MeasureUnit(measureName: "Calories",color: .red)
-//                    MeasureUnit(measureName: "Carbs",color: .blue)
-//                    MeasureUnit(measureName: "Fat",color: .orange)
-//                    MeasureUnit(measureName: "Protein",color: .white)
-//                }
+                //                HStack(spacing: 11.0){
+                //                    MeasureUnit(measureName: "Calories",color: .red)
+                //                    MeasureUnit(measureName: "Carbs",color: .blue)
+                //                    MeasureUnit(measureName: "Fat",color: .orange)
+                //                    MeasureUnit(measureName: "Protein",color: .white)
+                //                }
                 
             }.padding(.horizontal,40).padding(.top,35).frame(width: UIScreen.main.bounds.width).background(Color(.white))
             Spacer()

@@ -18,7 +18,7 @@ struct RecipeView: View {
     // instance of CoreData to save/delete/update CoreData
     @Environment(\.managedObjectContext) var moc
     @State var searchedResults:[ResponceItem] = [
-        ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "lunch", spoonacularScore: 4, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45)
+        ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://www.energie-tipp.de/wp-content/uploads/uploads/2018/12/6995578-image.jpg", spoonacularScore: 78.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45,usedIngredients: [], analyzedInstructions: [])
     ]
     
     
@@ -44,7 +44,7 @@ struct RecipeView: View {
                             
                             
                         }.gridStyle(columnsInPortrait: 3, spacing: 8,animation: Animation.spring())}
-                        .frame(height: 200)
+                        .frame(height: 122)
                     TextField("Add ingredients", text: self.$inputField ,onCommit: addIngredient)
                         .modifier( ClearButton(text: self.$inputField))
                 }
@@ -72,10 +72,13 @@ struct RecipeView: View {
                 Spacer()
                 Button(action: {
                     print("button clicked")
-                    self.networkManager.fetchRecipes(stringQueryOfIngredients: "muschrooms,meat", numberOfResults: 1){
-                        self.searchedResults.append($0.results[0])
+                    let inputAsArray = self.items.map{ "\($0.name.lowercased())" }
+                    let inputAsString = inputAsArray.joined(separator:",")
+                    print(inputAsString)
+                    self.networkManager.fetchRecipes(stringQueryOfIngredients: inputAsString , numberOfResults: 10){
+                        self.searchedResults = $0.results
                     }
-                 
+                    
                 }) {
                     Text("Filter").foregroundColor(Color.white).padding(5)
                 }.frame(width:UIScreen.main.bounds.width / 2.3)
@@ -95,7 +98,7 @@ struct RecipeView: View {
     func addIngredient(){
         //arr.append( IngredientChipModel(name: inputField))
         
-        items.append(IngredientChipModel(name: self.inputField, wasBought: true, measure: "",quantity: 0))
+        items.insert(IngredientChipModel(name: self.inputField, wasBought: true, measure: "",quantity: 0),at: 0)
         self.inputField = ""
         
     }
@@ -104,53 +107,64 @@ struct RecipeView: View {
 struct SearchResult: View {
     let res: ResponceItem
     @State private var showRecepieDetailsSheet = false
+    @State var scaleFactor: Double = 0
     var body: some View{
         HStack(alignment: .top){
             
-            Image(res.image)
+            URLImage(url: res.image)
+                
+                .scaleEffect(1.35)
                 .padding(.bottom)
                 .frame(width: 110, height: 95)
                 .cornerRadius(10)
-                .aspectRatio(contentMode: .fit)
+                .opacity(scaleFactor)
+                .onAppear(){
+                       withAnimation {
+                        self.scaleFactor = 1.0
+                       }
+                }
+            
             VStack(alignment: .leading){
                 HStack(alignment: .top){
                     Text("\(res.title)")
+                        
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .lineLimit(2)
+                        .lineLimit(2).fixedSize(horizontal: false, vertical: true)
                 }
+                Spacer().layoutPriority(0)
                 HStack(alignment: .bottom){
                     
-                    IconWithLabel(iconName: "star", labelName: String(format: "%.1f",res.spoonacularScore))
+                    IconWithLabel(iconName: "star", labelName: String(format: "%.1f",res.spoonacularScore / 20))
                     IconWithLabel(iconName: "healthy", labelName: String(format: "%.1f",res.healthScore))
                     IconWithLabel(iconName: "like", labelName: String(res.likes))
                 }
                 HStack(alignment: .bottom){
-//                    ForEach(res.matchedIngredients,id : \.self){
-//                        chip in
-//                        MatchChip(match: chip)
-//                    }
-                    Text("here are matched ingredients")
+                    ForEach(res.usedIngredients.shuffled()){
+                        MatchChip(match: $0)
+                    }
+                    //Text("here are matched ingredients")
                 }
                 
             }.padding(.horizontal, 7).frame(height:95)
             Spacer()
-        }.frame(height: 150)
-            .padding(.vertical, -7)
-            .padding(.horizontal, 7)
-            .background(Color.white)
-            .cornerRadius(15)
-            .shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
-            .gesture(
-                TapGesture()
-                    .onEnded { _ in
-                        self.showRecepieDetailsSheet.toggle()
-                }
+        }.frame(height: 150).animation(.spring())
+         
+        .padding(.vertical, -7)
+        .padding(.horizontal, 7)
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
+        .gesture(
+            TapGesture()
+                .onEnded { _ in
+                    self.showRecepieDetailsSheet.toggle()
+            }
         )
-//            .sheet(isPresented: $showRecepieDetailsSheet) {
-//                RecipeDetailsModalSheetView(recipe: self.res)
-//                
-//        }
+            .sheet(isPresented: $showRecepieDetailsSheet) {
+                RecipeDetailsModalSheetView(recipe: self.res)
+                
+        }
     }
 }
 
@@ -171,9 +185,9 @@ struct IconWithLabel: View{
 
 // chip of products that user has for recipe
 struct MatchChip: View{
-    let match: String
+    let match: ResponceItem.UsedIngredient
     var body: some View{
-        Text("\(match)")
+        Text("\(match.name)")
             .font(.callout)
             .fontWeight(.medium)
             .padding([.leading, .trailing],7)
@@ -226,7 +240,7 @@ struct IngredientChip: View{
 
 struct RecipeView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeView()
+        SearchResult(res:  ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://spoonacular.com/recipeImages/716429-312x231.jpg", spoonacularScore: 78, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45,usedIngredients: [ResponceItem.UsedIngredient(id: 2, amount: 1, unit: "g", name: "garlick", originalString: "", imageUrl: "")],analyzedInstructions: []))
     }
 }
 
