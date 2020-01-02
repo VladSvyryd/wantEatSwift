@@ -8,9 +8,10 @@
 
 import SwiftUI
 import WaterfallGrid
-import SwiftUIExtensions
-import QGrid
+//import SwiftUIExtensions
+//import QGrid
 import CoreData
+//import Foundation
 
 struct RecipeView: View {
     // Service instance to comunicate with API
@@ -28,10 +29,10 @@ struct RecipeView: View {
     @State var inputField = ""
     
     @State var items = [IngredientChipModel]()
-    
+    @State var rectArray = [TagModel(index: 1), TagModel(index: 2),TagModel(index: 3),TagModel(index: 4),TagModel(index: 5),TagModel(index: 6),TagModel(index: 7),TagModel(index: 8)]
     var body: some View {
         
-        VStack(alignment: .leading){
+        VStack{
             VStack{
                 VStack{
                     VStack(alignment: .leading){
@@ -39,12 +40,17 @@ struct RecipeView: View {
                         WaterfallGrid(self.items, id: \.self.id) { chip in
                             
                             chip.wasBought ?
-                                IngredientChip(chip: chip, chipsArray:self.$items)
+                                IngredientChip(chip: chip, chipsArray: self.$items)
                                 : nil
                             
                             
-                        }.gridStyle(columnsInPortrait: 3, spacing: 8,animation: Animation.spring())}
-                        .frame(height: 122)
+                        }.gridStyle(
+                            columns: 3, spacing: 2,
+                            padding: EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                        )
+                        
+                    }
+                    .frame(height: 122)
                     TextField("Add ingredients", text: self.$inputField ,onCommit: addIngredient)
                         .modifier( ClearButton(text: self.$inputField))
                 }
@@ -119,10 +125,10 @@ struct SearchResult: View {
                 .cornerRadius(10)
                 .opacity(scaleFactor)
                 .onAppear(){
-                       withAnimation {
+                    withAnimation {
                         self.scaleFactor = 1.0
-                       }
-                }
+                    }
+            }
             
             VStack(alignment: .leading){
                 HStack(alignment: .top){
@@ -149,17 +155,17 @@ struct SearchResult: View {
             }.padding(.horizontal, 7).frame(height:95)
             Spacer()
         }.frame(height: 150).animation(.spring())
-         
-        .padding(.vertical, -7)
-        .padding(.horizontal, 7)
-        .background(Color.white)
-        .cornerRadius(15)
-        .shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
-        .gesture(
-            TapGesture()
-                .onEnded { _ in
-                    self.showRecepieDetailsSheet.toggle()
-            }
+            
+            .padding(.vertical, -7)
+            .padding(.horizontal, 7)
+            .background(Color.white)
+            .cornerRadius(15)
+            .shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
+            .gesture(
+                TapGesture()
+                    .onEnded { _ in
+                        self.showRecepieDetailsSheet.toggle()
+                }
         )
             .sheet(isPresented: $showRecepieDetailsSheet) {
                 RecipeDetailsModalSheetView(recipe: self.res)
@@ -201,30 +207,40 @@ struct IngredientChip: View{
     let chip: IngredientChipModel
     @Binding var chipsArray:[IngredientChipModel]
     var body: some View{
-        VStack{
-            HStack{
-                Text("\(chip.name )")
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
-                
-                Button(action: {
-                    print("push")
-                    self.delete(chip: self.chip)
-                }){
-                    Text("+")
-                        .font(.title)
-                        .fontWeight(.thin)
-                        .foregroundColor(Color.black)
-                        .rotationEffect(Angle(degrees: 45.0))
+        
+        ZStack{
+            Rectangle()
+                .foregroundColor(Color.init(red: 224 / 255, green: 224 / 255, blue: 224 / 255, opacity: 1.0))
+                .frame( height: chip.name.count  > 7 ? CGFloat(chip.name.count / 2  * 10) : 30)
+                    .cornerRadius(15)
                     
-                }
-            }.padding([.leading, .trailing],10)
+                    HStack{
+                        Text("\(chip.name )")
+                            .font(.callout)
+                            .fontWeight(.medium)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(nil)
+                            //.fixedSize(horizontal: true, vertical: false)
+                        Spacer()
+                        Button(action: {
+                            print("push")
+                            self.delete(chip: self.chip)
+                        }){
+                            Text("+")
+                                .font(.title)
+                                .fontWeight(.thin)
+                                .foregroundColor(Color.black)
+                                .rotationEffect(Angle(degrees: 45.0))
+                            
+                        }
+                    }.padding(.horizontal, 10)
+            
+            
+            
         }
-        .background(Color.init(red: 224 / 255, green: 224 / 255, blue: 224 / 255, opacity: 1.0))
-        .cornerRadius(25)
     }
+    
+    
     func delete(chip: IngredientChipModel){
         for element in chipsArray {
             if(chip.id == element.id){
@@ -240,7 +256,7 @@ struct IngredientChip: View{
 
 struct RecipeView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResult(res:  ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://spoonacular.com/recipeImages/716429-312x231.jpg", spoonacularScore: 78, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45,usedIngredients: [ResponceItem.UsedIngredient(id: 2, amount: 1, unit: "g", name: "garlick", originalString: "", imageUrl: "")],analyzedInstructions: []))
+        RecipeView()
     }
 }
 
