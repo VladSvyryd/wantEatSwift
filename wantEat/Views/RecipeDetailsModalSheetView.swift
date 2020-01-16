@@ -13,12 +13,12 @@ struct RecipeDetailsModalSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     let recipe: ResponceItem
     var body: some View{
-        VStack(alignment: .center){
+        
+        VStack(alignment: .leading){
+            
             ZStack(alignment: .top){
-                
-                
                 ZStack(alignment: .bottomTrailing){
-                    //                URLImage(url: recipe.image).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
+                    //                              w   URLImage(url: recipe.image).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
                     Rectangle().frame(width: UIScreen.main.bounds.width
                         ,height: 255).foregroundColor(Color.black)
                     
@@ -28,77 +28,113 @@ struct RecipeDetailsModalSheetView: View {
                         
                     }.background(Color(.yellow)).offset(x: 0, y: -45)
                     
-                    
-                    
-                    
-                    
                 }
                 VStack(spacing: 10.0){
-                    Text(recipe.title)
-                        .font(.system(size: 26))
-                        .fontWeight(.bold)
-                    HStack{
+                    ScrollView{
+                        Text(recipe.title)
+                            .font(.system(size: 26))
+                            .fontWeight(.bold)
+                        HStack{
+                            
+                            WaterfallGrid(recipe.dishTypes, id: \.self) { type in
+                                DishTypeChip(dishType: type)
+                            }.gridStyle(
+                                columns: 3, spacing: 5,
+                                padding: EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                            )
+                        }.frame(height: 54)
+                        HStack(alignment: .top, spacing: 8.0){
+                            Image("stopwatch").resizable().frame(width:26, height :26)
+                            Text("Cooking time: \(String(format: "%.0f",recipe.spoonacularScore)) min.")
+                                .fontWeight(.semibold)
+                            Spacer()
+                        }
+                        Rectangle().frame(width: UIScreen.main.bounds.width - 40, height: 1).foregroundColor(Color.gray)
+                        HStack{
+                            
+                            WaterfallGrid(recipe.usedIngredients) { ingredient in
+                                IngredienTagComplex(ingredient:  ingredient,width: 20)
+                            }.gridStyle(
+                                spacing: 8, padding: EdgeInsets(top: 2, leading: 4, bottom: 8, trailing: 4), scrollDirection: .horizontal
+                            )
+                        }.frame(height: 60)
                         
-                        WaterfallGrid(recipe.dishTypes, id: \.self) { type in
-                            
-                            DishTypeChip(dishType: type)
-                            
-                        }.gridStyle(
-                            columns: 3, spacing: 5,
-                            padding: EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
-                        )
-                    }.frame(height: 54)
-                    HStack(alignment: .top, spacing: 8.0){
-                        Image("stopwatch").resizable().frame(width:26, height :26)
-                        Text("Cooking time: \(String(format: "%.0f",recipe.spoonacularScore)) min.")
-                            .fontWeight(.semibold)
+                        VStack(alignment: .leading, spacing: 3){
+                            // instructions array could be empty, need to be tested properly, till then by empty show no instruction
+                           
+                            ForEach(recipe.analyzedInstructions){instructionSet in
+                                ForEach(instructionSet.steps){step in
+                                    InstructionRow(instructionStep: step, instructionIngredientAsString: "")
+                                    
+                                }                        }
+                         
+                        }.padding(.horizontal, 4).padding(.bottom, 40)
+                        //                HStack(spacing: 11.0){
+                        //                    MeasureUnit(measureName: "Calories",color: .red)
+                        //                    MeasureUnit(measureName: "Carbs",color: .blue)
+                        //                    MeasureUnit(measureName: "Fat",color: .orange)
+                        //                    MeasureUnit(measureName: "Protein",color: .white)
+                        //                }
                         Spacer()
-                    }
-                    Rectangle().frame(width: UIScreen.main.bounds.width - 40, height: 1).foregroundColor(Color.gray)
-                    HStack{
-                        
-                        WaterfallGrid(recipe.usedIngredients, id: \.self.id) { ingredient in
-                            IngredienTagComplex(ingredient:  ingredient,width: 20)
-                        }.gridStyle(
-                            spacing: 8, padding: EdgeInsets(top: 2, leading: 4, bottom: 8, trailing: 4), scrollDirection: .horizontal
-                        )
-                    }.frame(height: 60)
-                    VStack(alignment: .leading){
-                        Text("description")
-                        
-                    }
-                    //                HStack(spacing: 11.0){
-                    //                    MeasureUnit(measureName: "Calories",color: .red)
-                    //                    MeasureUnit(measureName: "Carbs",color: .blue)
-                    //                    MeasureUnit(measureName: "Fat",color: .orange)
-                    //                    MeasureUnit(measureName: "Protein",color: .white)
-                    //                }
+                    }.frame(height: UIScreen.main.bounds.height - 330)
                     Spacer()
-                }
-                    
-                .padding(.horizontal,40).padding(.top,35).frame(width: UIScreen.main.bounds.width).background(Color(.white)).cornerRadius(25, corners: [.topLeft, .topRight])
-                    
-                    
-                .offset(y: 237)
+                }.padding(.horizontal,40)
+                    .padding(.top,35)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    .background(Color(.white))
+                    .cornerRadius(25, corners: [.topLeft, .topRight])
+                    .offset(y: 237)
+                
                 HStack{
                     DishFeatureChip(iconName: "star", text: String(format: "%.1f",recipe.spoonacularScore))
                     DishFeatureChip(iconName: "healthy", text: String(format: "%.1f",recipe.healthScore))
                     
                 }.offset(x: UIScreen.main.bounds.width - 325, y: 225)
                 
-                Button("Dismiss"){
+                Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
-                }.offset(y: UIScreen.main.bounds.height - 100)
-            }
+                    
+                }) {
+                    Text("Dismiss").foregroundColor(Color.white).padding(10)
+                }
+                .frame(width:UIScreen.main.bounds.width / 2.3)
+                .background(Color.red)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(color: Color.red,radius: 2)
+                .offset(y: UIScreen.main.bounds.height - 115)
+                
+            }.offset(y:39)
         }.edgesIgnoringSafeArea(.all)
         
     }
 }
-
+// View of single instruction step
+struct InstructionRow: View{
+    let instructionStep: ResponceItem.Step
+    @State var instructionIngredientAsString: String
+    var body: some View{
+        
+        HStack(alignment: .top){
+            Text("\(instructionStep.number) :").fontWeight(.semibold)
+            VStack(alignment: .leading){
+                !self.instructionIngredientAsString.isEmpty ?(Text("(\(self.instructionIngredientAsString))").fontWeight(.semibold)) : nil
+                Text("\(instructionStep.step)" )
+            }
+            Spacer()
+        }.onAppear{
+            let a = self.instructionStep.ingredients.map{String($0.name)}
+            self.instructionIngredientAsString = a.joined(separator: ", ")
+            
+            
+        }
+        
+        
+    }
+}
 // Object to visialise nutrients. (Calories, Carbs, Fat,  Protein)
 struct MeasureUnit: View {
-    let measureName: String,
-    color: Color
+    let measureName: String
+    let color: Color
     var body: some View{
         ZStack{
             Circle()
@@ -130,7 +166,9 @@ struct IngredienTagComplex: View {
             Rectangle().frame(width: width).foregroundColor(Color.white)
             Text("\(ingredient.name.capitalizingFirstLetter()) \(String(format: "%.1f",ingredient.amount))\(ingredient.unit)").fontWeight(.bold)
         }.onAppear(
-            perform:{ self.countWidthOfTag()}
+            perform:{
+                self.countWidthOfTag()
+        }
         )
     }
     
@@ -183,13 +221,13 @@ struct Flagy: View{
                     CGPoint(x: 0, y:height + 3),
                     CGPoint(x: width / 2.2 , y: height / 2),
                     CGPoint(x: 0 , y: -3),
-                      
+                    
                     CGPoint(x: width , y: 0),
-                 
+                    
                     CGPoint(x: width , y: height)
-                     
-                     
-                     
+                    
+                    
+                    
                 ])
                 
             }.fill(Color(.yellow))
@@ -204,8 +242,10 @@ struct Flagy: View{
 }
 struct RecipeDetailsModalSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeDetailsModalSheetView(recipe: ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "dinner", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ ResponceItem.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")], analyzedInstructions: [ResponceItem.AnalyzedInstruction(steps: [ResponceItem.Step(number: 1, step: "sdawdadw", ingredients: [ResponceItem.Ingredient(id: 1, name: "HOHOHO")], length: ResponceItem.TimeLength(number: 4, unit: "min"))]
+        RecipeDetailsModalSheetView(recipe: ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ ResponceItem.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [ResponceItem.AnalyzedInstruction(steps:[ResponceItem.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [ResponceItem.Ingredient(id: 1, name: "bread")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [ResponceItem.Ingredient(id: 111, name: "salt and pepper"),ResponceItem.Ingredient(id: 222, name: "dried parsley"),ResponceItem.Ingredient(id: 333, name: "garlic powder"),ResponceItem.Ingredient(id: 444, name: "onion powder")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [ResponceItem.Ingredient(id: 1, name: "olive oil")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [ResponceItem.Ingredient(id: 1, name: "onion")], length: ResponceItem.TimeLength(number: 4, unit: "min"))
             
-            )]))
+            
+        ])]))
     }
 }
+

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct I_HaveView: View {
     
-    //managedObjectContext
+    //managedObjectContext used to change CoreData
     @Environment(\.managedObjectContext) var moc
     
     @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var sItems: FetchedResults<ShoppingWish>

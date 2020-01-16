@@ -33,6 +33,7 @@
 		BF8755002395AC38002C05C9 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = BF8754FF2395AC38002C05C9 /* PartialSheet */; };
 		BF8B390323BE3B3B002A3F82 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8B390223BE3B3B002A3F82 /* TagView.swift */; };
 		BF8B390523BE3B69002A3F82 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8B390423BE3B69002A3F82 /* TagModel.swift */; };
+		BFD186DB23CB8FE800A034C7 /* playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD186DA23CB8FE800A034C7 /* playground.swift */; };
 		BFF3485F2385DEAB00204825 /* extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3485E2385DEAB00204825 /* extras.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		BF79DAC823AFC0FB00DA9AD7 /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
 		BF8B390223BE3B3B002A3F82 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		BF8B390423BE3B69002A3F82 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
+		BFD186DA23CB8FE800A034C7 /* playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playground.swift; sourceTree = "<group>"; };
 		BFF3485E2385DEAB00204825 /* extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extras.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,6 +192,7 @@
 				9445CE6D235CBD89001058BE /* ProfilView.swift */,
 				BF465F2823ABC6390080B97A /* ShoppingWishStore.swift */,
 				BF79DAC823AFC0FB00DA9AD7 /* URLImage.swift */,
+				BFD186DA23CB8FE800A034C7 /* playground.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				BF79DAC923AFC0FB00DA9AD7 /* URLImage.swift in Sources */,
 				949DD1A5235760E20035B7EF /* AppDelegate.swift in Sources */,
 				94BC58132357C334002CC273 /* I_HaveView.swift in Sources */,
+				BFD186DB23CB8FE800A034C7 /* playground.swift in Sources */,
 				949DD1AC235760E20035B7EF /* ContentView.swift in Sources */,
 				949DD1A7235760E20035B7EF /* SceneDelegate.swift in Sources */,
 				9445CE6E235CBD89001058BE /* ProfilView.swift in Sources */,

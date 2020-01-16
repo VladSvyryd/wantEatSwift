@@ -19,7 +19,10 @@ struct RecipeView: View {
     // instance of CoreData to save/delete/update CoreData
     @Environment(\.managedObjectContext) var moc
     @State var searchedResults:[ResponceItem] = [
-        ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://www.energie-tipp.de/wp-content/uploads/uploads/2018/12/6995578-image.jpg", spoonacularScore: 78.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45,usedIngredients: [], analyzedInstructions: [])
+        ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ ResponceItem.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [ResponceItem.AnalyzedInstruction(steps:[ResponceItem.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [ResponceItem.Ingredient(id: 1, name: "bread")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [ResponceItem.Ingredient(id: 111, name: "salt and pepper"),ResponceItem.Ingredient(id: 222, name: "dried parsley"),ResponceItem.Ingredient(id: 333, name: "garlic powder"),ResponceItem.Ingredient(id: 444, name: "onion powder")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [ResponceItem.Ingredient(id: 1, name: "olive oil")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [ResponceItem.Ingredient(id: 1, name: "onion")], length: ResponceItem.TimeLength(number: 4, unit: "min"))
+            
+            
+        ])])
     ]
     
     
@@ -30,6 +33,12 @@ struct RecipeView: View {
     
     @State var items = [IngredientChipModel]()
     @State var rectArray = [TagModel(index: 1), TagModel(index: 2),TagModel(index: 3),TagModel(index: 4),TagModel(index: 5),TagModel(index: 6),TagModel(index: 7),TagModel(index: 8)]
+    @State var enablePersonalMode = true
+    
+    @FetchRequest(entity: Profile.entity(), sortDescriptors: []) var userProfile: FetchedResults<Profile>
+    @State var loadingRecepies = false
+    @State var noResultTrigger = false
+    
     var body: some View {
         
         VStack{
@@ -62,15 +71,25 @@ struct RecipeView: View {
                 }
                 
             }.padding(.horizontal)
-            List(searchedResults){res in
-                SearchResult(res: res)
-                    .padding(.vertical, 2)
+            Toggle(isOn: $enablePersonalMode) {
+                Text("For me")
+            }.padding().frame(height: 40)
+            
+            ZStack{
                 
+                List(searchedResults){res in
+                    SearchResult(res: res)
+                        .padding(.vertical, 2)
+                    
+                }
+                .onAppear { UITableView.appearance().separatorStyle = .none
+                    
+                }
+                .onDisappear { UITableView.appearance().separatorStyle = .singleLine }
+                loadingRecepies ?  Spinner(): nil
+                noResultTrigger ? Text("Nothing found").font(.largeTitle).fontWeight(.bold).foregroundColor(Color.gray) : nil
             }
-            .onAppear { UITableView.appearance().separatorStyle = .none
-                
-            }
-            .onDisappear { UITableView.appearance().separatorStyle = .singleLine }
+            
             
             
             
@@ -78,11 +97,29 @@ struct RecipeView: View {
                 Spacer()
                 Button(action: {
                     print("button clicked")
+                    self.loadingRecepies = true
+                    self.noResultTrigger = false
+                    self.searchedResults = []
                     let inputAsArray = self.items.map{ "\($0.name.lowercased())" }
                     let inputAsString = inputAsArray.joined(separator:",")
-                    print(inputAsString)
-                    self.networkManager.fetchRecipes(stringQueryOfIngredients: inputAsString , numberOfResults: 10){
+                    
+                    var diet = self.userProfile[0].userDietQuery
+                    var cuisine = self.userProfile[0].userCuisineQuery
+                    
+                    if(!self.enablePersonalMode){
+                        diet = ""
+                        cuisine = ""
+                    }
+                    
+                    self.networkManager.fetchRecipes(stringQueryOfIngredients: inputAsString , numberOfResults: 10, diet: diet ?? "", cuisine: cuisine ?? ""){
                         self.searchedResults = $0.results
+                        if(self.searchedResults.isEmpty){
+                            self.noResultTrigger = true
+                            self.loadingRecepies = false
+                        }else{
+                            self.loadingRecepies = false
+                        }
+                        
                     }
                     
                 }) {
@@ -146,7 +183,7 @@ struct SearchResult: View {
                     IconWithLabel(iconName: "like", labelName: String(res.likes))
                 }
                 HStack(alignment: .bottom){
-                    ForEach(res.usedIngredients.shuffled()){
+                    ForEach(res.usedIngredients){
                         MatchChip(match: $0)
                     }
                     //Text("here are matched ingredients")
@@ -207,33 +244,32 @@ struct IngredientChip: View{
     let chip: IngredientChipModel
     @Binding var chipsArray:[IngredientChipModel]
     var body: some View{
-        
         ZStack{
             Rectangle()
                 .foregroundColor(Color.init(red: 224 / 255, green: 224 / 255, blue: 224 / 255, opacity: 1.0))
                 .frame( height: chip.name.count  > 7 ? CGFloat(chip.name.count / 2  * 10) : 30)
-                    .cornerRadius(15)
+                .cornerRadius(15)
+            
+            HStack{
+                Text("\(chip.name )")
+                    .font(.callout)
+                    .fontWeight(.medium)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(nil)
+                //.fixedSize(horizontal: true, vertical: false)
+                Spacer()
+                Button(action: {
+                    print("push")
+                    self.delete(chip: self.chip)
+                }){
+                    Text("+")
+                        .font(.title)
+                        .fontWeight(.thin)
+                        .foregroundColor(Color.black)
+                        .rotationEffect(Angle(degrees: 45.0))
                     
-                    HStack{
-                        Text("\(chip.name )")
-                            .font(.callout)
-                            .fontWeight(.medium)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(nil)
-                            //.fixedSize(horizontal: true, vertical: false)
-                        Spacer()
-                        Button(action: {
-                            print("push")
-                            self.delete(chip: self.chip)
-                        }){
-                            Text("+")
-                                .font(.title)
-                                .fontWeight(.thin)
-                                .foregroundColor(Color.black)
-                                .rotationEffect(Angle(degrees: 45.0))
-                            
-                        }
-                    }.padding(.horizontal, 10)
+                }
+            }.padding(.horizontal, 10)
             
             
             

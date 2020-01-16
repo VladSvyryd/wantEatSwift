@@ -62,8 +62,9 @@ class NetworkManager: ObservableObject {
 //        }
 //    }.resume()
 //    }
-    func fetchRecipes(stringQueryOfIngredients: String, numberOfResults: Int,completion: @escaping (ResponceResult) -> ()) {
-        guard let url = URL(string: "https://api.spoonacular.com/recipes/complexSearch?apiKey=22a9074551b64e11a4f4ee8bd2f7470f&number=\(numberOfResults)&includeIngredients=\(stringQueryOfIngredients)&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=true")
+    func fetchRecipes(stringQueryOfIngredients: String, numberOfResults: Int,diet: String,cuisine: String ,completion: @escaping (ResponceResult) -> ()) {
+        print(stringQueryOfIngredients)
+        guard let url = URL(string: "https://api.spoonacular.com/recipes/complexSearch?apiKey=22a9074551b64e11a4f4ee8bd2f7470f&number=\(numberOfResults)&includeIngredients=\(stringQueryOfIngredients)&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=true&cuisine=\(cuisine)&diet=\(diet)")
                   else {return}
         print(url)
         URLSession.shared.dataTask(with: url){ (data,responce,error) in

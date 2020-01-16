@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DietList" representedClassName="DietList" syncable="YES" codeGenerationType="class">
+        <attribute name="diet_description" optional="YES" attributeType="String"/>
+        <attribute name="enabled" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String" defaultValueString="User"/>
+    </entity>
+    <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" defaultValueString="User"/>
+        <attribute name="userCuisineQuery" optional="YES" attributeType="String"/>
+        <attribute name="userDietQuery" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="ShoppingWish" representedClassName="ShoppingWish" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateWasBought" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -12,6 +23,8 @@
     </entity>
     <entity name="Student" representedClassName="Student" syncable="YES" codeGenerationType="class"/>
     <elements>
+        <element name="DietList" positionX="-54" positionY="-135" width="128" height="103"/>
+        <element name="Profile" positionX="-54" positionY="-135" width="128" height="88"/>
         <element name="ShoppingWish" positionX="42.8125" positionY="-181.27734375" width="128" height="163"/>
         <element name="Student" positionX="-153.109375" positionY="-202.25" width="128" height="43"/>
     </elements>
