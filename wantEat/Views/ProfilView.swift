@@ -8,11 +8,7 @@
 
 import SwiftUI
 import CoreData
-struct Diet : Identifiable, Hashable{
-    var id: Int
-    var name: String
-    var description: String
-}
+
 
 struct ProfilView: View {
     @Environment(\.managedObjectContext) var moc

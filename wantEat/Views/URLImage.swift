@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct URLImage: View {
+struct URLImage2: View {
     //
     let url: String
     @ObservedObject private var imageDownloader = ImageDownloader()
@@ -32,9 +32,9 @@ struct URLImage: View {
     }
 }
 
-struct URLImage_Previews: PreviewProvider {
+struct URLImage2_Previews: PreviewProvider {
     static var previews: some View {
-        URLImage( url:"https://spoonacular.com/recipeImages/716429-312x231.jpg") .padding(.bottom)
+        URLImage2( url:"https://spoonacular.com/recipeImages/716429-312x231.jpg") .padding(.bottom)
                    
                        .frame(width: 110, height: 95)
                        .cornerRadius(10)

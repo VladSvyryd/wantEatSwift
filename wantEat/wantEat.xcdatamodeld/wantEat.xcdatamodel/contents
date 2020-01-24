@@ -21,11 +21,9 @@
         <attribute name="useForSearch" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="wasBought" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Student" representedClassName="Student" syncable="YES" codeGenerationType="class"/>
     <elements>
         <element name="DietList" positionX="-54" positionY="-135" width="128" height="103"/>
         <element name="Profile" positionX="-54" positionY="-135" width="128" height="88"/>
         <element name="ShoppingWish" positionX="42.8125" positionY="-181.27734375" width="128" height="163"/>
-        <element name="Student" positionX="-153.109375" positionY="-202.25" width="128" height="43"/>
     </elements>
 </model>

@@ -10,9 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(red: 0.5, green: 234.4, blue: 234.3, alpha: 0.67)
+        UITabBar.appearance().backgroundColor = UIColor(red: 0.5, green: 255/234, blue: 255/234, alpha: 0.67)
     }
-    @State private var rotateCamera = false
+    
     var body: some View {
         
         TabView {
@@ -57,3 +57,4 @@ struct   ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

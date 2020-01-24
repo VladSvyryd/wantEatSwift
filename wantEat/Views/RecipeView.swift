@@ -8,8 +8,8 @@
 
 import SwiftUI
 import WaterfallGrid
-//import SwiftUIExtensions
-//import QGrid
+
+import URLImage
 import CoreData
 //import Foundation
 
@@ -18,8 +18,8 @@ struct RecipeView: View {
     @State var networkManager = NetworkManager()
     // instance of CoreData to save/delete/update CoreData
     @Environment(\.managedObjectContext) var moc
-    @State var searchedResults:[ResponceItem] = [
-        ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ ResponceItem.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [ResponceItem.AnalyzedInstruction(steps:[ResponceItem.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [ResponceItem.Ingredient(id: 1, name: "bread")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [ResponceItem.Ingredient(id: 111, name: "salt and pepper"),ResponceItem.Ingredient(id: 222, name: "dried parsley"),ResponceItem.Ingredient(id: 333, name: "garlic powder"),ResponceItem.Ingredient(id: 444, name: "onion powder")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [ResponceItem.Ingredient(id: 1, name: "olive oil")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [ResponceItem.Ingredient(id: 1, name: "onion")], length: ResponceItem.TimeLength(number: 4, unit: "min"))
+    @State var searchedResults:[Recipe] = [
+        Recipe(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ Recipe.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],missedIngredients: [Recipe.UsedIngredient(id: 156, amount: 5, unit: "g", name: "TOMATO", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [Recipe.AnalyzedInstruction(steps:[Recipe.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [Recipe.Ingredient(id: 1, name: "bread")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [Recipe.Ingredient(id: 111, name: "salt and pepper"),Recipe.Ingredient(id: 222, name: "dried parsley"),Recipe.Ingredient(id: 333, name: "garlic powder"),Recipe.Ingredient(id: 444, name: "onion powder")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [Recipe.Ingredient(id: 1, name: "olive oil")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [Recipe.Ingredient(id: 1, name: "onion")], length: Recipe.TimeLength(number: 4, unit: "min"))
             
             
         ])])
@@ -32,7 +32,7 @@ struct RecipeView: View {
     @State var inputField = ""
     
     @State var items = [IngredientChipModel]()
-    @State var rectArray = [TagModel(index: 1), TagModel(index: 2),TagModel(index: 3),TagModel(index: 4),TagModel(index: 5),TagModel(index: 6),TagModel(index: 7),TagModel(index: 8)]
+
     @State var enablePersonalMode = true
     
     @FetchRequest(entity: Profile.entity(), sortDescriptors: []) var userProfile: FetchedResults<Profile>
@@ -148,25 +148,25 @@ struct RecipeView: View {
 }
 
 struct SearchResult: View {
-    let res: ResponceItem
+    let res: Recipe
     @State private var showRecepieDetailsSheet = false
     @State var scaleFactor: Double = 0
     var body: some View{
         HStack(alignment: .top){
             
-            URLImage(url: res.image)
-                
-                .scaleEffect(1.35)
-                .padding(.bottom)
-                .frame(width: 110, height: 95)
-                .cornerRadius(10)
-                .opacity(scaleFactor)
-                .onAppear(){
-                    withAnimation {
-                        self.scaleFactor = 1.0
-                    }
-            }
-            
+            URLImage(URL(string: res.image)!, placeholder: { _ in
+                Image("logo")            
+                    .resizable()
+                     .aspectRatio(contentMode: .fit)
+                    .frame(width: 110, height: 95)
+            }){ proxy in
+                proxy.image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                    
+                    .frame(width: 110, height: 95)
+                    .cornerRadius(10)
+           }
             VStack(alignment: .leading){
                 HStack(alignment: .top){
                     Text("\(res.title)")
@@ -228,7 +228,7 @@ struct IconWithLabel: View{
 
 // chip of products that user has for recipe
 struct MatchChip: View{
-    let match: ResponceItem.UsedIngredient
+    let match: Recipe.UsedIngredient
     var body: some View{
         Text("\(match.name)")
             .font(.callout)

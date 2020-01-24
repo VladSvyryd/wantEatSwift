@@ -8,19 +8,28 @@
 
 import SwiftUI
 import WaterfallGrid
+import URLImage
 
 struct RecipeDetailsModalSheetView: View {
     @Environment(\.presentationMode) var presentationMode
-    let recipe: ResponceItem
+    let recipe: Recipe
     var body: some View{
         
         VStack(alignment: .leading){
             
             ZStack(alignment: .top){
                 ZStack(alignment: .bottomTrailing){
-                    //                              w   URLImage(url: recipe.image).frame(width: UIScreen.main.bounds.width, height: 225).clipped()
-                    Rectangle().frame(width: UIScreen.main.bounds.width
-                        ,height: 255).foregroundColor(Color.black)
+                    URLImage(URL(string: recipe.image)!){ proxy in
+                        proxy.image
+                            
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: UIScreen.main.bounds.width, height: 255)
+                            .clipped()
+                    }
+                    
+                    //                    Rectangle().frame(width: UIScreen.main.bounds.width
+                    //                        ,height: 255).foregroundColor(Color.black)
                     
                     ZStack{
                         Flagy().frame(width: 30, height: 30).offset(x: -32)
@@ -29,7 +38,7 @@ struct RecipeDetailsModalSheetView: View {
                     }.background(Color(.yellow)).offset(x: 0, y: -45)
                     
                 }
-                VStack(spacing: 10.0){
+                VStack{
                     ScrollView{
                         Text(recipe.title)
                             .font(.system(size: 26))
@@ -52,8 +61,9 @@ struct RecipeDetailsModalSheetView: View {
                         Rectangle().frame(width: UIScreen.main.bounds.width - 40, height: 1).foregroundColor(Color.gray)
                         HStack{
                             
-                            WaterfallGrid(recipe.usedIngredients) { ingredient in
-                                IngredienTagComplex(ingredient:  ingredient,width: 20)
+                            WaterfallGrid(recipe.usedIngredients + recipe.missedIngredients) { ingredient in
+                                
+                                IngredienTagComplex(ingredient:  ingredient,usedIngredients: self.recipe.usedIngredients, width: 20)
                             }.gridStyle(
                                 spacing: 8, padding: EdgeInsets(top: 2, leading: 4, bottom: 8, trailing: 4), scrollDirection: .horizontal
                             )
@@ -61,13 +71,13 @@ struct RecipeDetailsModalSheetView: View {
                         
                         VStack(alignment: .leading, spacing: 3){
                             // instructions array could be empty, need to be tested properly, till then by empty show no instruction
-                           
+                            
                             ForEach(recipe.analyzedInstructions){instructionSet in
                                 ForEach(instructionSet.steps){step in
                                     InstructionRow(instructionStep: step, instructionIngredientAsString: "")
                                     
                                 }                        }
-                         
+                            
                         }.padding(.horizontal, 4).padding(.bottom, 40)
                         //                HStack(spacing: 11.0){
                         //                    MeasureUnit(measureName: "Calories",color: .red)
@@ -110,7 +120,7 @@ struct RecipeDetailsModalSheetView: View {
 }
 // View of single instruction step
 struct InstructionRow: View{
-    let instructionStep: ResponceItem.Step
+    let instructionStep: Recipe.Step
     @State var instructionIngredientAsString: String
     var body: some View{
         
@@ -159,15 +169,24 @@ struct DishFeatureChip: View {
 
 // element to show which ingredients and weight needed for recipe
 struct IngredienTagComplex: View {
-    let ingredient : ResponceItem.UsedIngredient
+    let ingredient : Recipe.UsedIngredient
+    let usedIngredients : [Recipe.UsedIngredient]
     @State var width: CGFloat
+    
+    
     var body: some View{
         ZStack(alignment: .leading){
             Rectangle().frame(width: width).foregroundColor(Color.white)
-            Text("\(ingredient.name.capitalizingFirstLetter()) \(String(format: "%.1f",ingredient.amount))\(ingredient.unit)").fontWeight(.bold)
+            Text("\(ingredient.name.capitalizingFirstLetter()) \(String(format: "%.1f",ingredient.amount))\(ingredient.unit)").fontWeight(.bold).foregroundColor( self.usedIngredients.contains { (element) -> Bool in
+                
+                if(element.id == ingredient.id) {return true}
+                 return false
+                } ? Color.green : Color.orange)
         }.onAppear(
             perform:{
                 self.countWidthOfTag()
+                
+                
         }
         )
     }
@@ -242,7 +261,7 @@ struct Flagy: View{
 }
 struct RecipeDetailsModalSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeDetailsModalSheetView(recipe: ResponceItem(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ ResponceItem.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),ResponceItem.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [ResponceItem.AnalyzedInstruction(steps:[ResponceItem.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [ResponceItem.Ingredient(id: 1, name: "bread")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [ResponceItem.Ingredient(id: 111, name: "salt and pepper"),ResponceItem.Ingredient(id: 222, name: "dried parsley"),ResponceItem.Ingredient(id: 333, name: "garlic powder"),ResponceItem.Ingredient(id: 444, name: "onion powder")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [ResponceItem.Ingredient(id: 1, name: "olive oil")], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: ResponceItem.TimeLength(number: 4, unit: "min")),ResponceItem.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [ResponceItem.Ingredient(id: 1, name: "onion")], length: ResponceItem.TimeLength(number: 4, unit: "min"))
+        RecipeDetailsModalSheetView(recipe: Recipe(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://spoonacular.com/recipeImages/551292-312x231.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ Recipe.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],missedIngredients: [Recipe.UsedIngredient(id: 156, amount: 5, unit: "g", name: "TOMATO", originalString: "123", imageUrl: "lunch ")] ,analyzedInstructions: [Recipe.AnalyzedInstruction(steps:[Recipe.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [Recipe.Ingredient(id: 1, name: "bread")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [Recipe.Ingredient(id: 111, name: "salt and pepper"),Recipe.Ingredient(id: 222, name: "dried parsley"),Recipe.Ingredient(id: 333, name: "garlic powder"),Recipe.Ingredient(id: 444, name: "onion powder")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [Recipe.Ingredient(id: 1, name: "olive oil")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [Recipe.Ingredient(id: 1, name: "onion")], length: Recipe.TimeLength(number: 4, unit: "min"))
             
             
         ])]))

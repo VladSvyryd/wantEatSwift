@@ -14,7 +14,6 @@
 		949DD1A7235760E20035B7EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DD1A6235760E20035B7EF /* SceneDelegate.swift */; };
 		949DD1AA235760E20035B7EF /* wantEat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 949DD1A8235760E20035B7EF /* wantEat.xcdatamodeld */; };
 		949DD1AC235760E20035B7EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DD1AB235760E20035B7EF /* ContentView.swift */; };
-		949DD1AE235760F20035B7EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 949DD1AD235760F20035B7EF /* Assets.xcassets */; };
 		949DD1B1235760F20035B7EF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 949DD1B0235760F20035B7EF /* Preview Assets.xcassets */; };
 		949DD1B4235760F20035B7EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 949DD1B2235760F20035B7EF /* LaunchScreen.storyboard */; };
 		949DD1BF235760F20035B7EF /* wantEatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949DD1BE235760F20035B7EF /* wantEatTests.swift */; };
@@ -24,15 +23,12 @@
 		BF465F2923ABC6390080B97A /* ShoppingWishStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF465F2823ABC6390080B97A /* ShoppingWishStore.swift */; };
 		BF52D7DA23A96CE90072D540 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF52D7D923A96CE90072D540 /* NetworkManager.swift */; };
 		BF5526AE23A68F12005ED71D /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = BF5526AD23A68F12005ED71D /* WaterfallGrid */; };
-		BF5526B123A690F5005ED71D /* SwiftUIExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = BF5526B023A690F5005ED71D /* SwiftUIExtensions */; };
 		BF5C89E023884DC7001131B7 /* RecipeDetailsModalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C89DF23884DC7001131B7 /* RecipeDetailsModalSheetView.swift */; };
 		BF5C89E323884F46001131B7 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C89E223884F46001131B7 /* RecipeModel.swift */; };
-		BF62A7CD23A8FFCE0088840D /* QGrid in Frameworks */ = {isa = PBXBuildFile; productRef = BF62A7CC23A8FFCE0088840D /* QGrid */; };
 		BF79DAC723AFB63100DA9AD7 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF79DAC623AFB63100DA9AD7 /* ImageDownloader.swift */; };
 		BF79DAC923AFC0FB00DA9AD7 /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF79DAC823AFC0FB00DA9AD7 /* URLImage.swift */; };
-		BF8755002395AC38002C05C9 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = BF8754FF2395AC38002C05C9 /* PartialSheet */; };
-		BF8B390323BE3B3B002A3F82 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8B390223BE3B3B002A3F82 /* TagView.swift */; };
-		BF8B390523BE3B69002A3F82 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8B390423BE3B69002A3F82 /* TagModel.swift */; };
+		BF9D0E3223D5FCFC007F2056 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = BF9D0E3123D5FCFC007F2056 /* URLImage */; };
+		BF9D0E3423D60808007F2056 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF9D0E3323D60808007F2056 /* Images.xcassets */; };
 		BFD186DB23CB8FE800A034C7 /* playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD186DA23CB8FE800A034C7 /* playground.swift */; };
 		BFF3485F2385DEAB00204825 /* extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3485E2385DEAB00204825 /* extras.swift */; };
 /* End PBXBuildFile section */
@@ -63,7 +59,6 @@
 		949DD1A6235760E20035B7EF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		949DD1A9235760E20035B7EF /* wantEat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = wantEat.xcdatamodel; sourceTree = "<group>"; };
 		949DD1AB235760E20035B7EF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		949DD1AD235760F20035B7EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		949DD1B0235760F20035B7EF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		949DD1B3235760F20035B7EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		949DD1B5235760F20035B7EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -81,8 +76,7 @@
 		BF5C89E223884F46001131B7 /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		BF79DAC623AFB63100DA9AD7 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		BF79DAC823AFC0FB00DA9AD7 /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
-		BF8B390223BE3B3B002A3F82 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
-		BF8B390423BE3B69002A3F82 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
+		BF9D0E3323D60808007F2056 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BFD186DA23CB8FE800A034C7 /* playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playground.swift; sourceTree = "<group>"; };
 		BFF3485E2385DEAB00204825 /* extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extras.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,9 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF62A7CD23A8FFCE0088840D /* QGrid in Frameworks */,
-				BF5526B123A690F5005ED71D /* SwiftUIExtensions in Frameworks */,
-				BF8755002395AC38002C05C9 /* PartialSheet in Frameworks */,
+				BF9D0E3223D5FCFC007F2056 /* URLImage in Frameworks */,
 				BF5526AE23A68F12005ED71D /* WaterfallGrid in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,8 +137,8 @@
 				949DD1A4235760E20035B7EF /* AppDelegate.swift */,
 				949DD1A6235760E20035B7EF /* SceneDelegate.swift */,
 				949DD1AB235760E20035B7EF /* ContentView.swift */,
-				949DD1AD235760F20035B7EF /* Assets.xcassets */,
 				949DD1B2235760F20035B7EF /* LaunchScreen.storyboard */,
+				BF9D0E3323D60808007F2056 /* Images.xcassets */,
 				949DD1B5235760F20035B7EF /* Info.plist */,
 				949DD1A8235760E20035B7EF /* wantEat.xcdatamodeld */,
 				949DD1AF235760F20035B7EF /* Preview Content */,
@@ -183,7 +175,6 @@
 		94BC580F2357C23C002CC273 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BF8B390123BE3AFD002A3F82 /* SubViews */,
 				94BC58102357C25D002CC273 /* KitchenView.swift */,
 				BF5C89DF23884DC7001131B7 /* RecipeDetailsModalSheetView.swift */,
 				94BC58122357C334002CC273 /* I_HaveView.swift */,
@@ -200,7 +191,7 @@
 		94C24B662374CBAB00BF7A38 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				94C24B682374CBEB00BF7A38 /* Enteties */,
+				94C24B682374CBEB00BF7A38 /* Entities */,
 				94C24B672374CBDC00BF7A38 /* NetworkManager */,
 			);
 			path = Models;
@@ -215,21 +206,12 @@
 			path = NetworkManager;
 			sourceTree = "<group>";
 		};
-		94C24B682374CBEB00BF7A38 /* Enteties */ = {
+		94C24B682374CBEB00BF7A38 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				BF5C89E223884F46001131B7 /* RecipeModel.swift */,
 			);
-			path = Enteties;
-			sourceTree = "<group>";
-		};
-		BF8B390123BE3AFD002A3F82 /* SubViews */ = {
-			isa = PBXGroup;
-			children = (
-				BF8B390223BE3B3B002A3F82 /* TagView.swift */,
-				BF8B390423BE3B69002A3F82 /* TagModel.swift */,
-			);
-			path = SubViews;
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		BFF3485D2385DB5400204825 /* Utils */ = {
@@ -257,10 +239,8 @@
 			);
 			name = wantEat;
 			packageProductDependencies = (
-				BF8754FF2395AC38002C05C9 /* PartialSheet */,
 				BF5526AD23A68F12005ED71D /* WaterfallGrid */,
-				BF5526B023A690F5005ED71D /* SwiftUIExtensions */,
-				BF62A7CC23A8FFCE0088840D /* QGrid */,
+				BF9D0E3123D5FCFC007F2056 /* URLImage */,
 			);
 			productName = wantEat;
 			productReference = 949DD1A1235760E20035B7EF /* wantEat.app */;
@@ -335,10 +315,8 @@
 			);
 			mainGroup = 949DD198235760E10035B7EF;
 			packageReferences = (
-				BF8754FE2395AC38002C05C9 /* XCRemoteSwiftPackageReference "PartialSheet" */,
 				BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */,
-				BF5526AF23A690F5005ED71D /* XCRemoteSwiftPackageReference "SwiftUIExtensions" */,
-				BF62A7CB23A8FFCE0088840D /* XCRemoteSwiftPackageReference "QGrid" */,
+				BF9D0E3023D5FCFC007F2056 /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 949DD1A2235760E20035B7EF /* Products */;
 			projectDirPath = "";
@@ -356,9 +334,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF9D0E3423D60808007F2056 /* Images.xcassets in Resources */,
 				949DD1B4235760F20035B7EF /* LaunchScreen.storyboard in Resources */,
 				949DD1B1235760F20035B7EF /* Preview Assets.xcassets in Resources */,
-				949DD1AE235760F20035B7EF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,8 +361,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF8B390523BE3B69002A3F82 /* TagModel.swift in Sources */,
-				BF8B390323BE3B3B002A3F82 /* TagView.swift in Sources */,
 				9445CE6C235CBD42001058BE /* ShoppingView.swift in Sources */,
 				BF5C89E023884DC7001131B7 /* RecipeDetailsModalSheetView.swift in Sources */,
 				949DD1AA235760E20035B7EF /* wantEat.xcdatamodeld in Sources */,
@@ -732,28 +708,12 @@
 				minimumVersion = 0.3.2;
 			};
 		};
-		BF5526AF23A690F5005ED71D /* XCRemoteSwiftPackageReference "SwiftUIExtensions" */ = {
+		BF9D0E3023D5FCFC007F2056 /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftExtensions/SwiftUIExtensions.git";
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.0;
-			};
-		};
-		BF62A7CB23A8FFCE0088840D /* XCRemoteSwiftPackageReference "QGrid" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Q-Mobile/QGrid.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.3;
-			};
-		};
-		BF8754FE2395AC38002C05C9 /* XCRemoteSwiftPackageReference "PartialSheet" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AndreaMiotto/PartialSheet";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.4;
+				minimumVersion = 0.9.9;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -764,20 +724,10 @@
 			package = BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */;
 			productName = WaterfallGrid;
 		};
-		BF5526B023A690F5005ED71D /* SwiftUIExtensions */ = {
+		BF9D0E3123D5FCFC007F2056 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BF5526AF23A690F5005ED71D /* XCRemoteSwiftPackageReference "SwiftUIExtensions" */;
-			productName = SwiftUIExtensions;
-		};
-		BF62A7CC23A8FFCE0088840D /* QGrid */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF62A7CB23A8FFCE0088840D /* XCRemoteSwiftPackageReference "QGrid" */;
-			productName = QGrid;
-		};
-		BF8754FF2395AC38002C05C9 /* PartialSheet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF8754FE2395AC38002C05C9 /* XCRemoteSwiftPackageReference "PartialSheet" */;
-			productName = PartialSheet;
+			package = BF9D0E3023D5FCFC007F2056 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -46,8 +46,6 @@ struct IngredientVeiw : View{
     var item: ShoppingWish
     @State private var doneIsShowing = true
     @Environment(\.managedObjectContext) var moc
-    
-    
     var body: some View{
         NavigationLink(destination: MeasuresView(item: self.item, viewName: "Ihave")) {
             HStack{
@@ -57,21 +55,17 @@ struct IngredientVeiw : View{
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 17, height: 12)
-                        
-                        .animation(.interpolatingSpring(mass: 1.0,stiffness: 100.0,damping: 10.5,initialVelocity: 0))
+                       .animation(.interpolatingSpring(mass: 1.0,stiffness: 100.0,damping: 10.5,initialVelocity: 0))
                         .offset(x: !self.doneIsShowing ?  CGFloat(-120) : CGFloat(0.0))
                     
                 }.frame(width: 20.0, height: 20.0).onTapGesture {
                     
                     withAnimation {
                         self.doneIsShowing.toggle()
-                        
-                    }
-                    
+                   }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         self.item.wasBought.toggle()
-                        
-                        self.item.dateWasBought = self.item.dateCreated
+                       self.item.dateWasBought = self.item.dateCreated
                         if self.moc.hasChanges{
                             try? self.moc.save()
                         }
@@ -91,8 +85,7 @@ struct IngredientVeiw : View{
                     }
                 }
                 Spacer()
-                
-                Text("\(formatDateAgo(dateToFormat: item.dateWasBought ?? Date()))").foregroundColor(Color.gray).font(.system(size: 17))
+               Text("\(formatDateAgo(dateToFormat: item.dateWasBought ?? Date()))").foregroundColor(Color.gray).font(.system(size: 17))
             }
         }.navigationBarTitle("My Ingredients",displayMode: .inline)
     }
@@ -109,14 +102,10 @@ func formatDateAgo(dateToFormat:Date) -> String{
 }
 struct IngredientDetailView : View{
     var item: ShoppingWish
-    
-    var body: some View{
+   var body: some View{
         HStack{
-            
             VStack{
                 Text("\(item.name ?? "Unknown")")
-                
-                
             }
         }
     }
