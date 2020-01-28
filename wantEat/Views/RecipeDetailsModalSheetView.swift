@@ -1,3 +1,4 @@
+
 //
 //  RecipeDetailsModalSheetView.swift
 //  wantEat
@@ -28,6 +29,7 @@ struct RecipeDetailsModalSheetView: View {
         VStack(alignment: .leading){
             
             ZStack(alignment: .top){
+                
                 ZStack(alignment: .bottomTrailing){
                     URLImage(URL(string: recipe.image)!){ proxy in
                         proxy.image
@@ -45,7 +47,7 @@ struct RecipeDetailsModalSheetView: View {
                         Flagy().frame(width: 30, height: 30).offset(x: -32)
                         Text("vegan").foregroundColor(Color(.darkGray)).padding(.vertical, 2).padding(.horizontal,10)
                         
-                        }.background(Color(.yellow)).offset(x: 0, y: -45) : nil
+                    }.background(Color(.yellow)).offset(x: 0, y: -45) : nil
                     
                 }
                 VStack{
@@ -72,16 +74,16 @@ struct RecipeDetailsModalSheetView: View {
                                 .fontWeight(.semibold).padding(.trailing, 5)
                             
                         }
-                          
+                        
                         Rectangle().frame(width: UIScreen.main.bounds.width - 40, height: 1).foregroundColor(Color.gray)
                         HStack{
-                            
-                            WaterfallGrid(recipe.usedIngredients + recipe.missedIngredients) { ingredient in
-                                
-                                IngredienTagComplex(ingredient:  ingredient,usedIngredients: self.recipe.usedIngredients, width: 20)
-                            }.gridStyle(
-                                spacing: 8, padding: EdgeInsets(top: 2, leading: 4, bottom: 8, trailing: 4), scrollDirection: .horizontal
-                            )
+//                            WaterfallGrid(recipe.usedIngredients + recipe.missedIngredients, id:\.self.id) { ingredient in
+//
+//                                IngredienTagComplex(ingredient:  ingredient,usedIngredients: self.recipe.usedIngredients, width: 20)
+//                            }.gridStyle(
+//                                spacing: 8, padding: EdgeInsets(top: 2, leading: 4, bottom: 8, trailing: 4), scrollDirection: .horizontal
+//                            )
+                            Text("")
                         }.frame(height: 60)
                         
                         VStack(alignment: .leading, spacing: 3){
@@ -116,7 +118,6 @@ struct RecipeDetailsModalSheetView: View {
                     .background(Color(.white))
                     .cornerRadius(25, corners: [.topLeft, .topRight])
                     .offset(y: 237)
-                
                 HStack{
                     DishFeatureChip(iconName: "star", text: String(format: "%.1f",(recipe.spoonacularScore / 20)))
                     DishFeatureChip(iconName: "healthy", text: String(format: "%.1f",recipe.healthScore))
@@ -137,7 +138,6 @@ struct RecipeDetailsModalSheetView: View {
                 
             }.offset(y:39)
         }.edgesIgnoringSafeArea(.all)
-        
     }
 }
 // View of single instruction step
@@ -284,7 +284,7 @@ struct Flagy: View{
                 ])
                 
             }.fill(Color(.yellow))
-
+            
         }
         
         
@@ -299,4 +299,3 @@ struct RecipeDetailsModalSheetView_Previews: PreviewProvider {
         ])],servings: 2), nutritionInformation: Nutrition(calories: "300", carbs: "23g", fat: "423g", protein: "23g"))
     }
 }
-
