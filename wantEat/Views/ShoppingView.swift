@@ -1,6 +1,11 @@
 //
 //  ShoppingView.swift
 //  wantEat
+//  This struct represents View of ShoppingList
+//  Basic functionality:
+//        - create Shopping items (put them into Core Data)
+//        - delete Shopping items
+//        - change values of Shopping items (quantity, measure)
 //
 //  Created by Vladyslav Svyrydonov on 20.10.19.
 //  Copyright © 2019 Vladyslav Svyrydonov. All rights reserved.
@@ -9,8 +14,6 @@
 import SwiftUI
 import CoreData
 
-// imported external library of sheetView from https://github.com/AndreaMiotto/PartialSheet
-//import PartialSheet
 
 
 struct ShoppingView: View {
@@ -21,11 +24,7 @@ struct ShoppingView: View {
     
     @ObservedObject private var keyboard = KeyboardResponder()
     @State var toBuyInput = ""
-    @State var items = ["String","Blow"]
     var safeareaBottomHeight:CGFloat = 80
-    
-    @State var openPickerWindow = false
-    @State var showClearButton = false
     var body: some View {
         
         NavigationView{
@@ -43,25 +42,7 @@ struct ShoppingView: View {
                     }
                     .onDelete(perform: self.delete)
                 }.padding(.leading, -20.0)
-                
-                
-                VStack{
-                    Group{
-                        Button(action: {
-                            //self.items.insert("\(self.toBuyInput)", at: 0)
-                            if(self.toBuyInput.isEmpty) {return}
-                            self.createShoopingItem()
-                            
-                            
-                        }){
-                            Text("Create Item")
-                                .foregroundColor(Color.white).padding()
-                        }.background(Color.blue)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .shadow(radius: 10)
-                    }
-                    
-                }
+            
                 
                 VStack{
                     
@@ -81,12 +62,7 @@ struct ShoppingView: View {
         
         
     }
-    func openSheet(){
-        withAnimation{
-            self.openPickerWindow = true
-        }
-        
-    }
+
     // may be used for closing keyboards
     private func endEditing(_ force: Bool) {
         UIApplication.shared.endEditing()

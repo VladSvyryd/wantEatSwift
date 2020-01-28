@@ -2,6 +2,10 @@
 //  SwiftUIView.swift
 //  wantEat
 //
+//  This struct represents start View
+//  Basic functionality:
+//        - get random Recipe on pusrpose
+//
 //  Created by Vladyslav Svyrydonov on 16.10.19.
 //  Copyright © 2019 Vladyslav Svyrydonov. All rights reserved.
 //
@@ -69,25 +73,38 @@ struct KitchenView: View {
                         .frame(width: 28, height: 6).onTapGesture {
                             
                             self.networkManager.fetchRandomRecipes(stringQueryOfTags: "salad" , numberOfResults: 5) {
-                                           let randomRecipes = $0.recipes
-                                           if(randomRecipes.isEmpty){
-                                               print("empty")
-                                           }else{
-                                               self.searchedRandomResults = randomRecipes
-                                           }
-                                  }
+                                let randomRecipes = $0.recipes
+                                if(randomRecipes.isEmpty){
+                                    print("empty")
+                                }else{
+                                    self.searchedRandomResults = randomRecipes
+                                }
+                            }
                     }
                     
                 }
                 
             }.padding(.horizontal,40)
             VStack(spacing: 20){
-                HugeButton(image: Image("tomatoes"), name: "salad")
-                   
+               
+                    HugeButton(image: Image("tomatoes"), name: "salad").onTapGesture {
+                         self.getRandomRecipes()
+                    }
+              
                 HugeButton(image: Image("soup"), name: "soup")
                 HugeButton(image: Image("dips"), name: "sauce")
             }
             Spacer()
+        }
+    }
+    func getRandomRecipes(){
+        self.networkManager.fetchRandomRecipes(stringQueryOfTags: "salad" , numberOfResults: 5) {
+            let randomRecipes = $0.recipes
+            if(randomRecipes.isEmpty){
+                print("empty")
+            }else{
+                self.searchedRandomResults = randomRecipes
+            }
         }
     }
 }
@@ -98,11 +115,7 @@ struct HugeButton: View{
     
     @State var clicked = false
     var body: some View {
-        Button(action:{
-            //self.clicked.toggle()
-           
-          
-        }){
+   
             ZStack{
                 image.renderingMode(.original).resizable().aspectRatio(1,contentMode: .fill).scaleEffect(1).frame(width: UIScreen.main.bounds.width - 100, height: 70).cornerRadius(20).blendMode(.screen)
                     .overlay(
@@ -112,7 +125,7 @@ struct HugeButton: View{
             }.shadow( color: Color( hue: 0.0, saturation: 0.0, brightness: 0.84), radius:  CGFloat(6), x: CGFloat(0), y: CGFloat(3))
             
             
-        }
+       
         
     }
     
@@ -129,24 +142,24 @@ struct BoxView: View{
             
             URLImage(URL(string: randomRecipe.image)!,
                      placeholder: { _ in
-                         Image("logo")
-                             .resizable()
-                              .aspectRatio(contentMode: .fit)
+                        Image("logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: 200, height: 300).cornerRadius(15, corners: [.bottomLeft, .bottomRight]).border(Color.gray, width: 1)
-                     }
-                     ){
+            }
+            ){
                 proxy in
                 proxy.image
                     
-                 .resizable()
-                        .scaledToFill()
+                    .resizable()
+                    .scaledToFill()
                     
                     .frame(width: 200, height: 300)
                     .cornerRadius(15)
                     .shadow(radius: 10)
-                        .clipped()
-                        .cornerRadius(15, corners: [.topLeft, .topRight])
-                    
+                    .clipped()
+                    .cornerRadius(15, corners: [.topLeft, .topRight])
+                
             }
             
             HStack(alignment: .top){
@@ -175,7 +188,7 @@ struct BoxView: View{
             }.padding(.leading,15).frame(width: 200, height: 80)
                 
                 .background(Color.init(red: 0, green: 0, blue: 0, opacity: 0.55))
-               
+            
         } .cornerRadius(15, corners: [.bottomLeft, .bottomRight])
     }
 }

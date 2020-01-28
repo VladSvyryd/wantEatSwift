@@ -2,6 +2,7 @@
 //  AppDelegate.swift
 //  wantEat
 //
+
 //  Created by Vladyslav Svyrydonov on 16.10.19.
 //  Copyright © 2019 Vladyslav Svyrydonov. All rights reserved.
 //

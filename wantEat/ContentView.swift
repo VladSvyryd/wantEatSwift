@@ -2,6 +2,10 @@
 //  ContentView.swift
 //  wantEat
 //
+//  This struct represents start View
+//  Basic functionality:
+//        - switch between Views
+//
 //  Created by Vladyslav Svyrydonov on 16.10.19.
 //  Copyright © 2019 Vladyslav Svyrydonov. All rights reserved.R®®®®
 //
@@ -10,7 +14,7 @@ import SwiftUI
 
 struct ContentView: View {
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(red: 0.5, green: 255/234, blue: 255/234, alpha: 0.67)
+        UITabBar.appearance().backgroundColor = UIColor(red: 0.5, green: 234/255, blue: 234/255, alpha: 0.67)
     }
     
     var body: some View {

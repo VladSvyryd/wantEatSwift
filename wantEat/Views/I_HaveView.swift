@@ -1,6 +1,11 @@
 //
 //  I_HaveView.swift
 //  wantEat
+//  This struct represents View of List of Ingredients that user has
+//  Basic functionality:
+//        - reset state of Ingredient (wasBought = false)
+//        - delete Ingredients items
+//        - change values of Ingredients (quantity, measure)
 //
 //  Created by Vladyslav Svyrydonov on 16.10.19.
 //  Copyright © 2019 Vladyslav Svyrydonov. All rights reserved.
@@ -13,15 +18,17 @@ struct I_HaveView: View {
     //managedObjectContext used to change CoreData
     @Environment(\.managedObjectContext) var moc
     
-    @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var sItems: FetchedResults<ShoppingWish>
+    @FetchRequest(
+        entity: ShoppingWish.entity(),
+        sortDescriptors: [NSSortDescriptor(key: "dateWasBought",
+        ascending: false)]) var sItems: FetchedResults<ShoppingWish>
    
     var body: some View {
         NavigationView{
             List{
-                
-                ForEach(self.sItems, id: \.id){obj in //\.id
+                ForEach(self.sItems, id: \.id){obj in
                     obj.wasBought ?
-                        IngredientVeiw(item: obj)  //?? "Unkown"
+                        IngredientVeiw(item: obj)
                             .listRowInsets(EdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)) : nil
                     
                 }

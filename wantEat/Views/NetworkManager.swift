@@ -12,7 +12,7 @@ import Combine
 class NetworkManager: ObservableObject {
 
     func fetchRecipes(stringQueryOfIngredients: String, numberOfResults: Int,diet: String,cuisine: String ,completion: @escaping (ResponceRecipeResult) -> ()) {
-        print(stringQueryOfIngredients)
+        print("stringQueryOfIngredients",stringQueryOfIngredients)
         guard let url = URL(string: "https://api.spoonacular.com/recipes/complexSearch?apiKey=22a9074551b64e11a4f4ee8bd2f7470f&number=\(numberOfResults)&includeIngredients=\(stringQueryOfIngredients)&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=true&cuisine=\(cuisine)&diet=\(diet)")
                   else {return}
      
@@ -22,7 +22,7 @@ class NetworkManager: ObservableObject {
                 let res = try JSONDecoder().decode(ResponceRecipeResult.self, from: data)
                 // do fetch in main thread
                 DispatchQueue.main.async {
-                    
+                   
                    completion(res)
                 }
             }catch let error{
@@ -54,6 +54,28 @@ class NetworkManager: ObservableObject {
             
         }
     }.resume()
+    }
+    
+    func getNutritionById (id:Int, completion: @escaping (Nutrition)->()){
+        
+        guard let url = URL(string: "https://api.spoonacular.com/recipes/\(id)/nutritionWidget.json?apiKey=22a9074551b64e11a4f4ee8bd2f7470f")
+                      else {return}
+         
+            URLSession.shared.dataTask(with: url){ (data,responce,error) in
+            if let data = data {
+                do{
+                    let res = try JSONDecoder().decode(Nutrition.self, from: data)
+                    // do fetch in main thread
+                    DispatchQueue.main.async {
+                        
+                       completion(res)
+                    }
+                }catch let error{
+                    print(error)
+                }
+                
+            }
+        }.resume()
     }
     
 }

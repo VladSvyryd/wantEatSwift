@@ -2,6 +2,13 @@
 //  SwiftUIView.swift
 //  wantEat
 //
+//  This struct represents View of Recipe Search
+//  Basic functionality:
+//        - get list of ingredients that user already has
+//        - add external Ingredients
+//        - switch search state (personal or general search)
+//        - show Recipes shortcuts
+//        - open Recipe Information in extra View
 //  Created by Vladyslav Svyrydonov on 20.10.19.
 //  Copyright © 2019 Vladyslav Svyrydonov. All rights reserved.
 //
@@ -11,7 +18,7 @@ import WaterfallGrid
 
 import URLImage
 import CoreData
-//import Foundation
+
 
 struct RecipeView: View {
     // Service instance to comunicate with API
@@ -19,22 +26,16 @@ struct RecipeView: View {
     // instance of CoreData to save/delete/update CoreData
     @Environment(\.managedObjectContext) var moc
     @State var searchedResults:[Recipe] = [
-        Recipe(id: 0, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ Recipe.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],missedIngredients: [Recipe.UsedIngredient(id: 156, amount: 5, unit: "g", name: "TOMATO", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [Recipe.AnalyzedInstruction(steps:[Recipe.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [Recipe.Ingredient(id: 1, name: "bread")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [Recipe.Ingredient(id: 111, name: "salt and pepper"),Recipe.Ingredient(id: 222, name: "dried parsley"),Recipe.Ingredient(id: 333, name: "garlic powder"),Recipe.Ingredient(id: 444, name: "onion powder")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [Recipe.Ingredient(id: 1, name: "olive oil")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [Recipe.Ingredient(id: 1, name: "onion")], length: Recipe.TimeLength(number: 4, unit: "min"))
-            
-            
-        ])])
+        Recipe(id: 551292, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://scx1.b-cdn.net/csz/news/800/2019/nasamoonrock.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ Recipe.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],missedIngredients: [Recipe.UsedIngredient(id: 156, amount: 0.5, unit: "g", name: "TOMATO", originalString: "123", imageUrl: "lunch ")],analyzedInstructions: [Recipe.AnalyzedInstruction(steps:[Recipe.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [Recipe.Ingredient(id: 1, name: "bread")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [Recipe.Ingredient(id: 111, name: "salt and pepper"),Recipe.Ingredient(id: 222, name: "dried parsley"),Recipe.Ingredient(id: 333, name: "garlic powder"),Recipe.Ingredient(id: 444, name: "onion powder")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [Recipe.Ingredient(id: 1, name: "olive oil")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [Recipe.Ingredient(id: 1, name: "onion")], length: Recipe.TimeLength(number: 4, unit: "min"))])],servings: 2)
     ]
-    
-    
-    
-    @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var sItems: FetchedResults<ShoppingWish>
+
+    @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var coreDataCollection: FetchedResults<ShoppingWish>
     
     @State var inputField = ""
     
     @State var items = [IngredientChipModel]()
 
     @State var enablePersonalMode = true
-    
     @FetchRequest(entity: Profile.entity(), sortDescriptors: []) var userProfile: FetchedResults<Profile>
     @State var loadingRecepies = false
     @State var noResultTrigger = false
@@ -88,55 +89,61 @@ struct RecipeView: View {
                 .onDisappear { UITableView.appearance().separatorStyle = .singleLine }
                 loadingRecepies ?  Spinner(): nil
                 noResultTrigger ? Text("Nothing found").font(.largeTitle).fontWeight(.bold).foregroundColor(Color.gray) : nil
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        print("button clicked")
+                        self.loadingRecepies = true
+                        self.noResultTrigger = false
+                        self.searchedResults = []
+                        let inputAsArray = self.items.map{(ingredient: IngredientChipModel) -> String in
+                            if(ingredient.wasBought){
+                                return ingredient.name.lowercased()
+                            }else{
+                                return ""
+                            }
+                        }
+                        let inputAsString = inputAsArray.filter({ $0 != ""}).joined(separator:",")
+                        var diet = self.userProfile[0].userDietQuery
+                        var cuisine = self.userProfile[0].userCuisineQuery
+                        
+                        if(!self.enablePersonalMode){
+                            diet = ""
+                            cuisine = ""
+                        }
+                        print("inputAsString",inputAsString)
+                        self.networkManager.fetchRecipes(stringQueryOfIngredients: inputAsString , numberOfResults: 10, diet: diet ?? "", cuisine: cuisine ?? ""){
+                            self.searchedResults = $0.results
+                            self.loadingRecepies = false
+                            print($0.results)
+                            if($0.results.isEmpty){
+                                self.noResultTrigger = true
+                            }else{
+                                self.loadingRecepies = false
+                            }
+                        }
+                        
+                    }) {
+                        Text("Filter").foregroundColor(Color.white).padding(5)
+                    }.frame(width:UIScreen.main.bounds.width / 2.3)
+                        .background(Color.green)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.green,radius: 5)
+                    
+                    Spacer()
+                }.padding(.vertical , 10).offset(y: UIScreen.main.bounds.height/2 - 200)
             }
             
             
             
             
-            HStack{
-                Spacer()
-                Button(action: {
-                    print("button clicked")
-                    self.loadingRecepies = true
-                    self.noResultTrigger = false
-                    self.searchedResults = []
-                    let inputAsArray = self.items.map{ "\($0.name.lowercased())" }
-                    let inputAsString = inputAsArray.joined(separator:",")
-                    
-                    var diet = self.userProfile[0].userDietQuery
-                    var cuisine = self.userProfile[0].userCuisineQuery
-                    
-                    if(!self.enablePersonalMode){
-                        diet = ""
-                        cuisine = ""
-                    }
-                    
-                    self.networkManager.fetchRecipes(stringQueryOfIngredients: inputAsString , numberOfResults: 10, diet: diet ?? "", cuisine: cuisine ?? ""){
-                        self.searchedResults = $0.results
-                        if(self.searchedResults.isEmpty){
-                            self.noResultTrigger = true
-                            self.loadingRecepies = false
-                        }else{
-                            self.loadingRecepies = false
-                        }
-                        
-                    }
-                    
-                }) {
-                    Text("Filter").foregroundColor(Color.white).padding(5)
-                }.frame(width:UIScreen.main.bounds.width / 2.3)
-                    .background(Color.green)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(color: Color.green,radius: 5)
-                
-                Spacer()
-            }.padding(.vertical , 10)
+
         }.onAppear(perform: { self.fetchCoreDataAsArray() } )
         
     }
     // map an array with type IngredientChipModel
     func fetchCoreDataAsArray(){
-        items = Array(sItems.map { IngredientChipModel(name: $0.name!, wasBought: $0.wasBought, measure: $0.measure,quantity: $0.quantity) })
+        items = Array(coreDataCollection.map { IngredientChipModel(name: $0.name!, wasBought: $0.wasBought, measure: $0.measure,quantity: $0.quantity) })
     }
     func addIngredient(){
         //arr.append( IngredientChipModel(name: inputField))
@@ -281,8 +288,9 @@ struct IngredientChip: View{
         for element in chipsArray {
             if(chip.id == element.id){
                 guard let index = chipsArray.firstIndex(of: element) else { return }
-                print(index)
-                chipsArray.remove(at: index)
+               
+                let bla = chipsArray.remove(at: index)
+                print(chip.id , element.id , index,bla,chipsArray.map{String($0.name)})
             }
             
         }

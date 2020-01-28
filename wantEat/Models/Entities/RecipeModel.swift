@@ -9,8 +9,16 @@
 import Foundation
 import CoreData
 
+struct Nutrition: Codable{
+    let calories: String
+    let carbs: String
+    let fat: String
+    let protein: String
+}
+
 struct RandomRecipeResult: Codable{
     let recipes:[RecipeInformation]
+    
     struct RecipeInformation: Codable, Identifiable {
         let id: Int
         let title: String
@@ -54,6 +62,7 @@ struct Recipe: Identifiable, Codable{
     let usedIngredients: [UsedIngredient]
     let missedIngredients: [UsedIngredient]
     let analyzedInstructions: [AnalyzedInstruction]
+    let servings: Int
     //let calories: Double
     //let carbs: Double
     //let fat: Double
@@ -125,3 +134,5 @@ struct Diet : Identifiable, Hashable{
     var name: String
     var description: String
 }
+
+
