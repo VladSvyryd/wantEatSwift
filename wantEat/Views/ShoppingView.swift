@@ -26,7 +26,7 @@ struct ShoppingView: View {
     @State var toBuyInput = ""
     var safeareaBottomHeight:CGFloat = 80
     var body: some View {
-        
+
         NavigationView{
             
             

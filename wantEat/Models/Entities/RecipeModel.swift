@@ -77,7 +77,7 @@ struct Recipe: Identifiable, Codable{
     //       }
     struct UsedIngredient: Codable, Identifiable {
         let id: Int
-        let amount: Double
+        var amount: Double
         let unit: String
         let name: String
         let originalString: String

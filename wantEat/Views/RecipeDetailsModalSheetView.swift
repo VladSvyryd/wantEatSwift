@@ -20,9 +20,11 @@ struct RecipeDetailsModalSheetView: View {
     let recipe: Recipe
     // Service instance to comunicate with API
     @State var networkManager = NetworkManager()
+    @State var servingsManager = ServingsManager()
     @State var nutritionIsLoaded = false
     @State var nutritionInformation = Nutrition(calories: "n/a", carbs: "n/a", fat: "n/a", protein: "n/a")
-    @State var numberOfPortions = 0
+    @State var numberOfPortions:Int = 0
+    @State var servingNumbers:[String] = Array(1...10).map{String($0)}
     var body: some View{
         
         VStack(alignment: .leading){
@@ -45,7 +47,7 @@ struct RecipeDetailsModalSheetView: View {
                         Flagy().frame(width: 30, height: 30).offset(x: -32)
                         Text("vegan").foregroundColor(Color(.darkGray)).padding(.vertical, 2).padding(.horizontal,10)
                         
-                        }.background(Color(.yellow)).offset(x: 0, y: -45) : nil
+                    }.background(Color(.yellow)).offset(x: 0, y: -45) : nil
                     
                 }
                 VStack{
@@ -59,7 +61,8 @@ struct RecipeDetailsModalSheetView: View {
                                 DishTypeChip(dishType: type)
                             }.gridStyle(
                                 columns: 3, spacing: 5,
-                                padding: EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                                padding: EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4),
+                                scrollDirection: .horizontal
                             )
                         }.frame(height: 54)
                         HStack(alignment: .center, spacing: 8.0){
@@ -68,15 +71,32 @@ struct RecipeDetailsModalSheetView: View {
                                 .fontWeight(.semibold)
                             Spacer()
                             Image("logoSmallicon").resizable().scaledToFit().frame(width:26, height :26)
-                            Text("Servings: \(String(recipe.servings))")
+                            Text("Servings: \(String(numberOfPortions))")
                                 .fontWeight(.semibold).padding(.trailing, 5)
                             
                         }
-                          
+                        HStack{
+                            Picker("Numbers", selection: $numberOfPortions) {
+                                Text(self.servingNumbers[0]).tag(1)
+                                Text(self.servingNumbers[1]).tag(2)
+                                Text(self.servingNumbers[2]).tag(3)
+                                Text(self.servingNumbers[3]).tag(4)
+                                Text(self.servingNumbers[4]).tag(5)
+                                Text(self.servingNumbers[5]).tag(6)
+                                Text(self.servingNumbers[6]).tag(7)
+                                Text(self.servingNumbers[7]).tag(8)
+                                Text(self.servingNumbers[8]).tag(9)
+                                Text(self.servingNumbers[9]).tag(10)
+                                
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                        }.onAppear(){
+                            self.numberOfPortions = self.recipe.servings
+                        }
                         Rectangle().frame(width: UIScreen.main.bounds.width - 40, height: 1).foregroundColor(Color.gray)
                         HStack{
                             
-                            WaterfallGrid(recipe.usedIngredients + recipe.missedIngredients) { ingredient in
+                            WaterfallGrid(self.servingsManager.setNewIngredients(ingredients: self.recipe.usedIngredients + self.recipe.missedIngredients,standardServingAmount: recipe.servings, factor: numberOfPortions)) { ingredient in
                                 
                                 IngredienTagComplex(ingredient:  ingredient,usedIngredients: self.recipe.usedIngredients, width: 20)
                             }.gridStyle(
@@ -101,6 +121,8 @@ struct RecipeDetailsModalSheetView: View {
                             MeasureUnit(nutritionNumberFor:nutritionInformation.protein,measureName: "protein",color: .white)
                             
                         }.padding(.bottom, 60).onAppear{
+                            
+                            
                             self.networkManager.getNutritionById(id: self.recipe.id) {
                                 print($0)
                                 self.nutritionInformation = $0
@@ -242,7 +264,7 @@ struct DishTypeChip: View {
         ZStack{
             Rectangle()
                 .foregroundColor(Color.white)
-                .frame(height: 20)
+                .frame(width: 20)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(Color.gray, lineWidth: 1)
@@ -284,7 +306,7 @@ struct Flagy: View{
                 ])
                 
             }.fill(Color(.yellow))
-
+            
         }
         
         
@@ -296,7 +318,7 @@ struct RecipeDetailsModalSheetView_Previews: PreviewProvider {
         RecipeDetailsModalSheetView(recipe: Recipe(id: 551292, title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",image: "https://spoonacular.com/recipeImages/551292-312x231.jpg", spoonacularScore: 4.0, healthScore: 19.0, likes: 300, vegan: true, dishTypes: ["lunch","lunch main","course main", "dish dinner"],readyInMinutes:  45.0, usedIngredients:[ Recipe.UsedIngredient(id: 1, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 11, amount: 5, unit: "g", name: "potato", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 22, amount: 5, unit: "g", name: "cheese", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 33, amount: 5, unit: "g", name: "champinions", originalString: "123", imageUrl: "lunch "),Recipe.UsedIngredient(id: 44, amount: 4, unit: "large", name: "key", originalString: "123", imageUrl: "lunch ")],missedIngredients: [Recipe.UsedIngredient(id: 156, amount: 0.5, unit: "g", name: "TOMATO", originalString: "123", imageUrl: "lunch ")] ,analyzedInstructions: [Recipe.AnalyzedInstruction(steps:[Recipe.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [Recipe.Ingredient(id: 1, name: "bread")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [Recipe.Ingredient(id: 111, name: "salt and pepper"),Recipe.Ingredient(id: 222, name: "dried parsley"),Recipe.Ingredient(id: 333, name: "garlic powder"),Recipe.Ingredient(id: 444, name: "onion powder")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [Recipe.Ingredient(id: 1, name: "olive oil")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [Recipe.Ingredient(id: 1, name: "onion")], length: Recipe.TimeLength(number: 4, unit: "min"))
             
             
-        ])],servings: 2), nutritionInformation: Nutrition(calories: "300", carbs: "23g", fat: "423g", protein: "23g"))
+        ])],servings: 5), nutritionInformation: Nutrition(calories: "300", carbs: "23g", fat: "423g", protein: "23g"))
     }
 }
 
