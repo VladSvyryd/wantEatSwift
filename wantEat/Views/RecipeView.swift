@@ -212,8 +212,8 @@ struct SearchResult: View {
                 }
         )
             .sheet(isPresented: $showRecepieDetailsSheet) {
-                RecipeDetailsModalSheetView(recipe: self.res)
-                
+            RecipeDetailsModalSheetView(recipe: self.res)
+
         }
     }
 }

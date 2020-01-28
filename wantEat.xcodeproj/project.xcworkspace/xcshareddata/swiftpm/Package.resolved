@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "URLImage",
+        "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
+        "state": {
+          "branch": null,
+          "revision": "5d3a5dc84f9bdf948d8b136f7a1b0099af68f114",
+          "version": "0.9.9"
+        }
+      },
+      {
+        "package": "WaterfallGrid",
+        "repositoryURL": "https://github.com/paololeonardi/WaterfallGrid.git",
+        "state": {
+          "branch": null,
+          "revision": "92ce6e6a78a96a518f44df6690f849f6b6a1f3c9",
+          "version": "0.3.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

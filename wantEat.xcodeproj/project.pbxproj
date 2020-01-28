@@ -22,7 +22,6 @@
 		94BC58132357C334002CC273 /* I_HaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BC58122357C334002CC273 /* I_HaveView.swift */; };
 		BF465F2923ABC6390080B97A /* ShoppingWishStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF465F2823ABC6390080B97A /* ShoppingWishStore.swift */; };
 		BF52D7DA23A96CE90072D540 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF52D7D923A96CE90072D540 /* NetworkManager.swift */; };
-		BF5526AE23A68F12005ED71D /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = BF5526AD23A68F12005ED71D /* WaterfallGrid */; };
 		BF5C89E023884DC7001131B7 /* RecipeDetailsModalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C89DF23884DC7001131B7 /* RecipeDetailsModalSheetView.swift */; };
 		BF5C89E323884F46001131B7 /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C89E223884F46001131B7 /* RecipeModel.swift */; };
 		BF5DDA8623DDC78700F44C7E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BF5DDA8523DDC78700F44C7E /* logo.png */; };
@@ -32,6 +31,7 @@
 		BF9D0E3223D5FCFC007F2056 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = BF9D0E3123D5FCFC007F2056 /* URLImage */; };
 		BF9D0E3423D60808007F2056 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF9D0E3323D60808007F2056 /* Images.xcassets */; };
 		BFD186DB23CB8FE800A034C7 /* playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD186DA23CB8FE800A034C7 /* playground.swift */; };
+		BFD2C34623E06C38007321C5 /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = BFD2C34523E06C38007321C5 /* WaterfallGrid */; };
 		BFF3485F2385DEAB00204825 /* extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3485E2385DEAB00204825 /* extras.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +91,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF9D0E3223D5FCFC007F2056 /* URLImage in Frameworks */,
-				BF5526AE23A68F12005ED71D /* WaterfallGrid in Frameworks */,
+				BFD2C34623E06C38007321C5 /* WaterfallGrid in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +119,7 @@
 				949DD1BD235760F20035B7EF /* wantEatTests */,
 				949DD1C8235760F30035B7EF /* wantEatUITests */,
 				949DD1A2235760E20035B7EF /* Products */,
+				BFD2C34423E06C38007321C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,6 +221,13 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		BFD2C34423E06C38007321C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BFF3485D2385DB5400204825 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,8 +253,8 @@
 			);
 			name = wantEat;
 			packageProductDependencies = (
-				BF5526AD23A68F12005ED71D /* WaterfallGrid */,
 				BF9D0E3123D5FCFC007F2056 /* URLImage */,
+				BFD2C34523E06C38007321C5 /* WaterfallGrid */,
 			);
 			productName = wantEat;
 			productReference = 949DD1A1235760E20035B7EF /* wantEat.app */;
@@ -727,15 +735,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BF5526AD23A68F12005ED71D /* WaterfallGrid */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */;
-			productName = WaterfallGrid;
-		};
 		BF9D0E3123D5FCFC007F2056 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF9D0E3023D5FCFC007F2056 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
+		};
+		BFD2C34523E06C38007321C5 /* WaterfallGrid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5526AC23A68F12005ED71D /* XCRemoteSwiftPackageReference "WaterfallGrid" */;
+			productName = WaterfallGrid;
 		};
 /* End XCSwiftPackageProductDependency section */
 
