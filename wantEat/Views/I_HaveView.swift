@@ -33,8 +33,8 @@ struct I_HaveView: View {
                     
                 }
                 .onDelete(perform: self.delete)
-            }.padding(.leading, 0.0)
-        }.navigationBarTitle("My Ingredients",displayMode: .inline)
+            }.padding(.leading, 0.0).navigationBarTitle("My Ingredients",displayMode: .inline)
+        }
     }
     func delete(at offsets: IndexSet){
         for index in offsets {

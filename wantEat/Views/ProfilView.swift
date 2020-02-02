@@ -56,7 +56,7 @@ struct ProfilView: View {
     @State var dietString = ""
     @State var cuisineString = ""
     @State private var selectedModeForDiet = 9
-    @State private var selectedModeForCuisine = 0
+    @State private var selectedModeForCuisine = 4
     var body: some View {
         NavigationView {
             // 3.
@@ -100,6 +100,7 @@ struct ProfilView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: Color.green,radius: 5)
                         Spacer()
+                      
                     }
                     
                 }.navigationBarTitle("Profile")
