@@ -96,7 +96,7 @@ struct RecipeDetailsModalSheetView: View {
                         Rectangle().frame(width: UIScreen.main.bounds.width - 40, height: 1).foregroundColor(Color.gray)
                         HStack{
                             
-                            WaterfallGrid(self.servingsManager.setNewIngredients(ingredients: self.recipe.usedIngredients + self.recipe.missedIngredients,standardServingAmount: recipe.servings, factor: numberOfPortions)) { ingredient in
+                            WaterfallGrid(setNewIngredients(ingredients: self.recipe.usedIngredients + self.recipe.missedIngredients,standardServingCount: recipe.servings, factor: numberOfPortions)) { ingredient in
                                 
                                 IngredienTagComplex(ingredient:  ingredient,usedIngredients: self.recipe.usedIngredients, width: 20)
                             }.gridStyle(
@@ -161,6 +161,12 @@ struct RecipeDetailsModalSheetView: View {
         }.edgesIgnoringSafeArea(.all)
         
     }
+    func setNewIngredients(ingredients:[Recipe.UsedIngredient],standardServingCount:Int ,factor: Int) -> [Recipe.UsedIngredient]{
+        return ingredients.map {
+           let forOneServing = $0.amount / Double(standardServingCount)
+           return Recipe.UsedIngredient(id: $0.id, amount: forOneServing * Double(factor), unit: $0.unit, name: $0.name, originalString: $0.originalString, imageUrl: $0.imageUrl) }
+   }
+
 }
 // View of single instruction step
 struct InstructionRow: View{
