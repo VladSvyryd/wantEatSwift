@@ -77,7 +77,7 @@ struct MultiPicker: View  {
 
 
 
-// Has been took from https://inneka.com/programming/swift/how-to-hide-keyboard-when-using-swiftui/
+// Has been taken from https://inneka.com/programming/swift/how-to-hide-keyboard-when-using-swiftui/
 // Dissmis keyboard as extention of UIApplication 
 extension UIApplication {
     func endEditing() {
@@ -110,7 +110,8 @@ struct ClearButton: ViewModifier
         }
     }
 }
-
+// Has been taken from https://stackoverflow.com/questions/56760335/round-specific-corners-swiftui
+// Created by Mojtaba Hosseini Oct 29 '19 at 11:01
 // used to set different corner radius for each corner
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
@@ -127,6 +128,7 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
+// End
 
 
 // extend String to Capitalize first letter of String sequence

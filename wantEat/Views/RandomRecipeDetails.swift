@@ -156,8 +156,11 @@ struct RandomRecipeDetails: View {
             }.edgesIgnoringSafeArea(.all)
             
         }
-        func setNewIngredients(ingredients:[RandomRecipeResult.RecipeInformation.ExtendedIngredients],standardServingCount:Int ,factor: Int) -> [RandomRecipeResult.RecipeInformation.ExtendedIngredients]{
-            return ingredients.map {
+        func setNewIngredients(ingredients:[RandomRecipeResult.RecipeInformation.ExtendedIngredients?],standardServingCount:Int ,factor: Int) -> [RandomRecipeResult.RecipeInformation.ExtendedIngredients]{
+            guard let ingreds = ingredients as? [RandomRecipeResult.RecipeInformation.ExtendedIngredients] else{
+                return []
+            }
+            return ingreds.map {
                let forOneServing = $0.amount / Double(standardServingCount)
                 return RandomRecipeResult.RecipeInformation.ExtendedIngredients(name: $0.name, id: $0.id, consitency: $0.consitency, amount: forOneServing * Double(factor), unit: $0.unit) }
        }

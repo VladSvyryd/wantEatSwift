@@ -31,7 +31,8 @@ struct RandomRecipeResult: Codable{
         let analyzedInstructions: [Recipe.AnalyzedInstruction]
         let vegan: Bool
         let dishTypes: [String]
-        let extendedIngredients: [ExtendedIngredients]
+        // some recipies comes without Ingredients it causes crach by random recipies, tried to make optional binging but no result. change
+        let extendedIngredients: [ExtendedIngredients?]
         
         struct ExtendedIngredients: Codable, Identifiable {
             let name: String

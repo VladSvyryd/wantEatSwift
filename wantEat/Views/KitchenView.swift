@@ -53,7 +53,7 @@ struct KitchenView: View {
                 // show spinner by loading
                 loadingRecepies ?  Spinner().frame(width: 200, height: 300): nil
                 // get some random recipies by View Initialize
-            }.onAppear(perform: { self.getRandomRecipeByQuery(for: "") } )
+            }.onAppear(perform: { self.getRandomRecipeByQuery(for: "",number: 5) } )
           HStack(alignment: .top){
                 ForEach(0..<mealCategories.count){  i in
                     Button(action: {
@@ -104,10 +104,10 @@ struct KitchenView: View {
         }
     }
     // send get request to API and get random recipies by tags (e.x. dinner, salad, dessert)
-    func getRandomRecipeByQuery(for query: String)->Void{
+    func getRandomRecipeByQuery(for query: String, number:Int = 15)->Void{
         print(query)
         loadingRecepies = true
-        self.networkManager.fetchRandomRecipes(stringQueryOfTags: query , numberOfResults: 15) {
+        self.networkManager.fetchRandomRecipes(stringQueryOfTags: query , numberOfResults: number) {
             self.loadingRecepies = false
             let randomRecipes = $0.recipes
             if(randomRecipes.isEmpty){
@@ -147,7 +147,8 @@ struct BoxView: View{
     let randomRecipe: RandomRecipeResult.RecipeInformation
     // build string of all ingrediens separated with ","
     var ingredients:String{
-        let a = randomRecipe.extendedIngredients.map{String($0.name)}
+        guard let extendedIngreds = randomRecipe.extendedIngredients as? [RandomRecipeResult.RecipeInformation.ExtendedIngredients] else{return ""}
+        let a = extendedIngreds.map{String($0.name)}
         return a.joined(separator: ", ")
     }
     // state of modal DetailsView
