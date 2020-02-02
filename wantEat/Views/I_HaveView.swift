@@ -36,6 +36,7 @@ struct I_HaveView: View {
             }.padding(.leading, 0.0).navigationBarTitle("My Ingredients",displayMode: .inline)
         }
     }
+    // delete Ingredients from List
     func delete(at offsets: IndexSet){
         for index in offsets {
             let sItem = sItems[index]

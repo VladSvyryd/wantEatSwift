@@ -8,7 +8,7 @@
 
 import SwiftUI
 import URLImage
-
+// playground, as soon as it was difficult to work with Canvas, this place was used to test some Views
 struct playground: View {
     @State var t = true
     @State var isLoading = false

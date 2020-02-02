@@ -18,7 +18,9 @@ import CoreData
 
 struct ProfilView: View {
     @Environment(\.managedObjectContext) var moc
+    // Core Data for Profile Informations
     @FetchRequest(entity: Profile.entity(), sortDescriptors: []) var userProfile: FetchedResults<Profile>
+    // Core Data for User Diets Informations
     @FetchRequest(entity: DietList.entity(), sortDescriptors: []) var dietList: FetchedResults<DietList>
     
     
@@ -50,9 +52,7 @@ struct ProfilView: View {
     
     
     
-    //@State private var selectedItems: Set = [UUID() ]
-    //@State var dietSheetActive = false
-    //@State var selectionSet = Set<Int>([2,5])
+ 
     @State var dietString = ""
     @State var cuisineString = ""
     @State private var selectedModeForDiet = 9
@@ -116,6 +116,7 @@ struct ProfilView: View {
                }
     }
 }
+// Modal View to edit Profile
 struct SimpleNavigationView : View{
     var inputLineTupel: (title:String,oldInput:String)
     @State var input = ""
@@ -166,8 +167,7 @@ struct SimpleNavigationView : View{
 
 
 
-
-
+// Experimental multiple choise row
 struct SelectRow: View{
     @Environment(\.managedObjectContext) var moc
     @State var diet: DietList
@@ -205,6 +205,7 @@ struct SelectRow: View{
         
     }
 }
+//  experimental multiple choise picker
 struct MultiSelectionPicker: View{
     var title: String
     var diets: FetchedResults<DietList>

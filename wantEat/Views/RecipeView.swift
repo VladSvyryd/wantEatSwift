@@ -26,13 +26,14 @@ struct RecipeView: View {
     // instance of CoreData to save/delete/update CoreData
     @Environment(\.managedObjectContext) var moc
     @State var searchedResults:[Recipe] = []
-
+    
+    // Core Data ShoppingWish
     @FetchRequest(entity: ShoppingWish.entity(), sortDescriptors: [NSSortDescriptor(key: "dateWasBought", ascending: false)]) var coreDataCollection: FetchedResults<ShoppingWish>
-    
+    // user input
     @State var inputField = ""
-    
+    // Ingredients Array
     @State var items = [IngredientChipModel]()
-
+    // on/off personalisation of search. Use profile settings of not
     @State var enablePersonalMode = true
     @FetchRequest(entity: Profile.entity(), sortDescriptors: []) var userProfile: FetchedResults<Profile>
     @State var loadingRecepies = false
@@ -100,7 +101,7 @@ struct RecipeView: View {
                 HStack{
                     Spacer()
                     Button(action: {
-                        print("button clicked")
+                        print("send request to server")
                         self.loadingRecepies = true
                         self.noResultTrigger = false
                         self.searchedResults = []
@@ -119,7 +120,7 @@ struct RecipeView: View {
                             diet = ""
                             cuisine = ""
                         }
-                        print("inputAsString",inputAsString)
+                        
                         self.networkManager.fetchRecipes(stringQueryOfIngredients: inputAsString , numberOfResults: 10, diet: diet ?? "", cuisine: cuisine ?? ""){
                             self.searchedResults = $0.results
                             self.loadingRecepies = false
@@ -153,15 +154,14 @@ struct RecipeView: View {
     func fetchCoreDataAsArray(){
         items = Array(coreDataCollection.map { IngredientChipModel(name: $0.name!, wasBought: $0.wasBought, measure: $0.measure,quantity: $0.quantity) })
     }
+    // add ingredient to current list of ingredients
     func addIngredient(){
-        //arr.append( IngredientChipModel(name: inputField))
-        
-        items.insert(IngredientChipModel(name: self.inputField, wasBought: true, measure: "",quantity: 0),at: 0)
+       items.insert(IngredientChipModel(name: self.inputField, wasBought: true, measure: "",quantity: 0),at: 0)
         self.inputField = ""
         
     }
 }
-
+//  Sub View in form of square button to visialise json objects, that represent recipies
 struct SearchResult: View {
     let res: Recipe
     @State private var showRecepieDetailsSheet = false
@@ -254,7 +254,7 @@ struct MatchChip: View{
             .cornerRadius(10)
     }
 }
-
+// Visualissation of Ingredien as a Chip
 struct IngredientChip: View{
     let chip: IngredientChipModel
     @Binding var chipsArray:[IngredientChipModel]
@@ -291,7 +291,7 @@ struct IngredientChip: View{
         }
     }
     
-    
+    // delete Chip from Grid
     func delete(chip: IngredientChipModel){
         for element in chipsArray {
             if(chip.id == element.id){

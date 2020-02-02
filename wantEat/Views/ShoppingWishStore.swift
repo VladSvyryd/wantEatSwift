@@ -10,6 +10,7 @@
 import Foundation
 import SwiftUI
 import CoreData
+// deprecated was used to connect with Core Data to manipulate Data
 class ShoppingWishStore{
     public static func defaultItems() -> [ShoppingWish]{
         let store = NSPersistentContainer(name: "ItemStore")

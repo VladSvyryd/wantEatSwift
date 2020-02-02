@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-
+// deprecated was used to parse Images from Link
 struct URLImage2: View {
     //
     let url: String

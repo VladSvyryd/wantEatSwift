@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+// deprecated used to count servings
 class ServingsManager {
     func setNewIngredients(ingredients:[Recipe.UsedIngredient],standardServingAmount:Int ,factor: Int) -> [Recipe.UsedIngredient]{
         let newIngredients:[Recipe.UsedIngredient] = ingredients.map {

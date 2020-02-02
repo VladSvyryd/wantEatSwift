@@ -20,10 +20,13 @@ struct RecipeDetailsModalSheetView: View {
     let recipe: Recipe
     // Service instance to comunicate with API
     @State var networkManager = NetworkManager()
-    @State var servingsManager = ServingsManager()
+    // loading state of request to API to get nutritions
     @State var nutritionIsLoaded = false
+    // default if nothing has been loaded
     @State var nutritionInformation = Nutrition(calories: "n/a", carbs: "n/a", fat: "n/a", protein: "n/a")
+    
     @State var numberOfPortions:Int = 0
+    
     @State var servingNumbers:[String] = Array(1...10).map{String($0)}
     var body: some View{
         
@@ -40,9 +43,7 @@ struct RecipeDetailsModalSheetView: View {
                             .clipped()
                     }
                     
-                    //                    Rectangle().frame(width: UIScreen.main.bounds.width
-                    //                        ,height: 255).foregroundColor(Color.black)
-                    
+                    // show vegan shield if recipe is vegan
                     recipe.vegan ? ZStack{
                         Flagy().frame(width: 30, height: 30).offset(x: -32)
                         Text("vegan").foregroundColor(Color(.darkGray)).padding(.vertical, 2).padding(.horizontal,10)
@@ -106,7 +107,6 @@ struct RecipeDetailsModalSheetView: View {
                         
                         VStack(alignment: .leading, spacing: 3){
                             // instructions array could be empty, need to be tested properly, till then by empty show no instruction
-                            
                             ForEach(recipe.analyzedInstructions){instructionSet in
                                 ForEach(instructionSet.steps){step in
                                     InstructionRow(instructionStep: step, instructionIngredientAsString: "")
@@ -161,6 +161,7 @@ struct RecipeDetailsModalSheetView: View {
         }.edgesIgnoringSafeArea(.all)
         
     }
+    // set new value of servings due to number of ingredients per serving
     func setNewIngredients(ingredients:[Recipe.UsedIngredient],standardServingCount:Int ,factor: Int) -> [Recipe.UsedIngredient]{
         return ingredients.map {
            let forOneServing = $0.amount / Double(standardServingCount)
@@ -191,7 +192,7 @@ struct InstructionRow: View{
         
     }
 }
-// Object to visialise nutrients. (Calories, Carbs, Fat,  Protein)
+// Object to visualise nutrients. (Calories, Carbs, Fat, Protein)
 struct MeasureUnit: View {
     let nutritionNumberFor : String
     let measureName: String

@@ -26,7 +26,7 @@ struct ShoppingView: View {
     @State var toBuyInput = ""
     var safeareaBottomHeight:CGFloat = 80
     var body: some View {
-
+        
         NavigationView{
             
             
@@ -42,7 +42,7 @@ struct ShoppingView: View {
                     }
                     .onDelete(perform: self.delete)
                 }.padding(.leading, -20.0)
-            
+                
                 
                 VStack{
                     
@@ -62,12 +62,12 @@ struct ShoppingView: View {
         
         
     }
-
+    
     // may be used for closing keyboards
     private func endEditing(_ force: Bool) {
         UIApplication.shared.endEditing()
     }
-    
+    // create a Shopping item in Core Data
     func createShoopingItem(){
         if(self.toBuyInput.isEmpty) {return}
         let shoppingWish = ShoppingWish(context: self.moc)
@@ -81,6 +81,7 @@ struct ShoppingView: View {
         }
         self.toBuyInput = ""
     }
+    // delete Shopping Item form Core  Data
     func delete(at offsets: IndexSet){
         for index in offsets {
             let sItem = sItems[index]
@@ -91,16 +92,13 @@ struct ShoppingView: View {
         }
     }
 }
-
+// Row of ShoppingItem List
 struct ShoppingItemView:View {
     @Environment(\.managedObjectContext) var moc
     var item: ShoppingWish
     @State private var doneIsShowing = false
     let formater = NumberFormatter()
     var body: some View {
-        
-        
-        
         NavigationLink(destination: MeasuresView(item: self.item, viewName: "Shopping")) {
             
             HStack(spacing: 18.0){
@@ -134,10 +132,10 @@ struct ShoppingItemView:View {
                     self.doneIsShowing.toggle()
                     
                 }
-                
+                // perform async function in main thread
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self.item.wasBought.toggle()
-                     self.item.useForSearch.toggle()
+                    self.item.useForSearch.toggle()
                     self.item.dateWasBought = Date()
                     if self.moc.hasChanges{
                         try? self.moc.save()
@@ -175,10 +173,8 @@ struct MeasuresView:View {
                     if(viewName == "Shopping"){
                         Text("created on \(formatDate(dateToFormat: item.dateCreated ?? Date()))")
                     }else if(viewName == "Ihave"){
-                         Text("bought on \(formatDate(dateToFormat: item.dateWasBought ?? Date()))")
+                        Text("bought on \(formatDate(dateToFormat: item.dateWasBought ?? Date()))")
                     }
-                   
-                    
                 }
                 VStack{
                     Section(header: Text("Pick up product measures").font(.title)){
@@ -197,19 +193,19 @@ struct MeasuresView:View {
                             Text("Back").foregroundColor(Color.white).padding()
                         }.frame(width:UIScreen.main.bounds.width / 2.3)
                             .background(Color.orange)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: Color.orange, radius: 5)
                         Spacer()
                         Button(action: {
-                             self.changeShoppingItem(shoppingWish: self.item)
+                            self.changeShoppingItem(shoppingWish: self.item)
                             
                             self.presentationMode.wrappedValue.dismiss()
-                           
+                            
                         }) {
                             Text("Save").foregroundColor(Color.white).padding()
                         }.frame(width:UIScreen.main.bounds.width / 2.3)
                             .background(Color.green)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: Color.green,radius: 5)
                     }
                     
@@ -220,16 +216,18 @@ struct MeasuresView:View {
         }.navigationBarTitle("\(item.name ?? "Unknown")")
         
     }
+    // change Shopping Item quantity and measure
     func changeShoppingItem(shoppingWish: ShoppingWish){
-       
+        
         shoppingWish.quantity = Double(selection[0])!
         shoppingWish.measure = selection[1]
-                   if self.moc.hasChanges{
-                       try? self.moc.save()
-                   
-               }
-         print(shoppingWish.quantity)
+        if self.moc.hasChanges{
+            try? self.moc.save()
+            
+        }
+        print(shoppingWish.quantity)
     }
+    
     func formatDate(dateToFormat:Date) -> String{
         
         // ask for the full relative date

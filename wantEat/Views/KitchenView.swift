@@ -22,19 +22,13 @@ struct RandomRecipe: Identifiable{
 }
 
 struct KitchenView: View {
-    let categories:[RandomRecipe] = [
-        RandomRecipe(id: 0, title: "Schaschlik", imageUrl: "breakfast", ingredients:["Pork", "garlic", "catchup", "butter"]),
-        RandomRecipe(id: 1, title: "Steak", imageUrl: "lunch",ingredients:["Pork", "parsley", "thyme", "rosemary"]),
-        RandomRecipe(id: 2, title: "test", imageUrl: "dinner",ingredients:["Pork", "thyme", "catchup", "butter"]),
-        RandomRecipe(id: 3, title: "Cake", imageUrl: "dessert",ingredients:["Pork", "rosemary", "catchup" ,"butter"])
-    ]
-    let mealCategories:[String] = ["breakfast","lunch","dinner","dessert"]
     
-    @State var activeScrollView: Int = 2
-    @State var activeButton = 0
+    let mealCategories:[String] = ["breakfast","lunch","dinner","dessert"]
+    // array of slides
     @State var searchedRandomResults:[RandomRecipeResult.RecipeInformation]=[]
     var networkManager = NetworkManager()
-   @State var loadingRecepies = false
+    // spinner state
+    @State var loadingRecepies = false
     var body: some View {
         
         VStack(spacing: 20){
@@ -56,15 +50,14 @@ struct KitchenView: View {
                     .padding(.leading, UIScreen.main.bounds.width / CGFloat(UIScreen.main.bounds.width / 110))
                     .padding(.trailing,  UIScreen.main.bounds.width / CGFloat(UIScreen.main.bounds.width / 110))
                 }
+                // show spinner by loading
                 loadingRecepies ?  Spinner().frame(width: 200, height: 300): nil
-
-            }.onAppear(perform: { self.getRandomRecipeByQuery(string: "salad") } )
-            
-            
-            HStack(alignment: .top){
+                // get some random recipies by View Initialize
+            }.onAppear(perform: { self.getRandomRecipeByQuery(for: "") } )
+          HStack(alignment: .top){
                 ForEach(0..<mealCategories.count){  i in
                     Button(action: {
-                        self.getRandomRecipeByQuery(string: self.mealCategories[i])
+                        self.getRandomRecipeByQuery(for: self.mealCategories[i])
                     }){
                         Text("\(self.mealCategories[i])")
                     }.foregroundColor(.black)
@@ -77,7 +70,7 @@ struct KitchenView: View {
                     .font(.headline)
                 Spacer()
                 Button(action:{
-                    
+                    print("some extra functions")
                 }){
                     Image("dots").resizable().aspectRatio(contentMode: .fit).foregroundColor(Color.black)
                         .frame(width: 28, height: 6)
@@ -90,17 +83,17 @@ struct KitchenView: View {
                 VStack(spacing: 20){
                     
                     Button(action: {
-                        self.getRandomRecipeByQuery(string: "salad")
+                        self.getRandomRecipeByQuery(for: "salad")
                     }){
                        HugeButton(image: Image("tomatoes"), name: "salad")
                     }
                     Button(action: {
-                        self.getRandomRecipeByQuery(string: "soup")
+                        self.getRandomRecipeByQuery(for: "soup")
                     }){
                         HugeButton(image: Image("soup"), name: "soup")
                     }
                     Button(action: {
-                        self.getRandomRecipeByQuery(string: "sauce")
+                        self.getRandomRecipeByQuery(for: "sauce")
                     }){
                         HugeButton(image: Image("sauce"), name: "sauce")
                     }
@@ -110,13 +103,15 @@ struct KitchenView: View {
             Spacer()
         }
     }
-    func getRandomRecipeByQuery(string: String)->Void{
-        print(string)
+    // send get request to API and get random recipies by tags (e.x. dinner, salad, dessert)
+    func getRandomRecipeByQuery(for query: String)->Void{
+        print(query)
         loadingRecepies = true
-        self.networkManager.fetchRandomRecipes(stringQueryOfTags: string , numberOfResults: 15) {
+        self.networkManager.fetchRandomRecipes(stringQueryOfTags: query , numberOfResults: 15) {
             self.loadingRecepies = false
             let randomRecipes = $0.recipes
             if(randomRecipes.isEmpty){
+                // do some responce when nothing has came
                 print("empty")
             }else{
                 self.searchedRandomResults = randomRecipes
@@ -131,8 +126,6 @@ struct KitchenView: View {
 struct HugeButton: View{
     var image: Image
     var name: String
-    
-    
     var body: some View {
         ZStack{
             
@@ -149,13 +142,15 @@ struct HugeButton: View{
     }
     
 }
-
+// slide with sheet insilde to sshow details of a recipe
 struct BoxView: View{
     let randomRecipe: RandomRecipeResult.RecipeInformation
+    // build string of all ingrediens separated with ","
     var ingredients:String{
         let a = randomRecipe.extendedIngredients.map{String($0.name)}
         return a.joined(separator: ", ")
     }
+    // state of modal DetailsView
     @State private var showRecepieDetailsSheet = false
     var body: some View {
         ZStack(alignment: .bottom){
@@ -173,7 +168,6 @@ struct BoxView: View{
                     
                     .resizable()
                     .scaledToFill()
-                    
                     .frame(width: 200, height: 300)
                     .cornerRadius(15)
                     .shadow(radius: 10)
@@ -221,7 +215,7 @@ struct BoxView: View{
     }
 }
 
-
+// preview with some resalt
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         KitchenView(searchedRandomResults: [RandomRecipeResult.RecipeInformation(id: 1, title: "Stake", image: "https://spoonacular.com/recipeImages/794066-556x370.jpg", servings: 2, readyInMinutes: 60, aggregateLikes: 500, healthScore: 45.6, spoonacularScore: 32.3, analyzedInstructions: [Recipe.AnalyzedInstruction(steps:[Recipe.Step(number: 1, step: "Place a large skillet over medium heat.",ingredients: [Recipe.Ingredient(id: 1, name: "bread")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 2, step: "Mix the ground beef with the garlic powder, onion powder, parsley flakes, salt and pepper.",ingredients: [Recipe.Ingredient(id: 111, name: "salt and pepper"),Recipe.Ingredient(id: 222, name: "dried parsley"),Recipe.Ingredient(id: 333, name: "garlic powder"),Recipe.Ingredient(id: 444, name: "onion powder")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 3, step: "Roll the beef mixture into 1-inch round meatballs.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 4, step: "Add 1 tablespoon of olive oil to the skillet.",ingredients: [Recipe.Ingredient(id: 1, name: "olive oil")], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 5, step: "Place the meatballs in the skillet (cook in twobatches if they won't all fit) and cook the meatballs completely, turning to brown on each sideevery 3-4 minutes. Once the meatballs are cooked through, remove them from the pan and setaside.",ingredients: [], length: Recipe.TimeLength(number: 4, unit: "min")),Recipe.Step(number: 6, step: "Toss the diced onion into the skillet. Cook the onion for 4-5 minutes, until it's beginning tosoften, stirring frequently.",ingredients: [Recipe.Ingredient(id: 1, name: "onion")], length: Recipe.TimeLength(number: 4, unit: "min"))])], vegan: true, dishTypes: ["dinner"], extendedIngredients: [RandomRecipeResult.RecipeInformation.ExtendedIngredients(name: "pork", id: 2341, consitency: "solid", amount: 23.5, unit: "kg"),RandomRecipeResult.RecipeInformation.ExtendedIngredients(name: "garlic", id: 341, consitency: "solid", amount: 1.5, unit: "kg")])])
