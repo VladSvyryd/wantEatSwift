@@ -46,7 +46,7 @@ struct RandomRecipeDetails: View {
                         
                     }
                     VStack{
-                        ScrollView{
+                        ScrollView(showsIndicators: false){
                             Text(recipe.title)
                                 .font(.system(size: 26))
                                 .fontWeight(.bold)
