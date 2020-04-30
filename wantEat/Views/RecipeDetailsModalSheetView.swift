@@ -56,20 +56,13 @@ struct RecipeDetailsModalSheetView: View {
                         Text(recipe.title)
                             .font(.system(size: 26))
                             .fontWeight(.bold)
-                        HStack{
-                            
-                            WaterfallGrid(recipe.dishTypes, id: \.self) { type in
-                                DishTypeChip(dishType: type)
-                            }.gridStyle(
-                                columns: 3, spacing: 5,
-                                padding: EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4),
-                                scrollDirection: .horizontal
-                            )
-                        }.frame(height: 54)
+                       
                         HStack(alignment: .center, spacing: 8.0){
                             Image("stopwatch").resizable().frame(width:26, height :26)
                             Text("Cooking time: \(String(format: "%.0f",recipe.readyInMinutes)) min.")
+                                .font(.body)
                                 .fontWeight(.semibold)
+                                .lineLimit(2)
                             Spacer()
                             Image("logoSmallicon").resizable().scaledToFit().frame(width:26, height :26)
                             Text("Servings: \(String(numberOfPortions))")
